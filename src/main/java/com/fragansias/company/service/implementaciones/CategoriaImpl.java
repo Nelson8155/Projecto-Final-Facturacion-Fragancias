@@ -5,6 +5,7 @@ import com.fragansias.company.repository.CategoriaRepository;
 import com.fragansias.company.service.contrato.CategoriaDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,15 +16,19 @@ public class CategoriaImpl extends GenericoDAOImpl<Categoria, CategoriaRepositor
         super(repository);
     }
 
-    @Override
+    /*@Override
     public List<Categoria> econtrarPorNombre(String param1) {
         return (List<Categoria>) repository.encontrarPorNombreCategoria(param1);
+    }*/
+
+    @Override
+    @Transactional(readOnly = true)
+    public Categoria findByName(String nombre) {
+        return repository.findByName(nombre);
     }
 
     @Override
-    public Categoria findByName(String categoria) {
-        return repository.findByName(categoria);
+    public Iterable<Categoria> buscarPorNombreSimilar(String nombre) {
+        return repository.buscarPorNombreSimilar(nombre);
     }
-
-
 }

@@ -42,7 +42,7 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
                 .stream()
                 .map(mapper::mapCategoria)
                 .collect(Collectors.toList());
-        response.put("!success!",Boolean.TRUE);
+        response.put("success",Boolean.TRUE);
         response.put("data",categoriaDTOS);
         return ResponseEntity.ok(response);
     }
@@ -54,9 +54,9 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
         CategoriaDTO dto = null;
 
         if (oCategorias.isEmpty()){
-        response.put("success",Boolean.FALSE);
-        response.put("message",String.format("no existe %s con ID %d",nombre_entidad));
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            response.put("success",Boolean.FALSE);
+            response.put("message",String.format("no existe %s con ID %d",nombre_entidad, id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         categoria=oCategorias.get();
         dto=mapper.mapCategoria(categoria);
@@ -64,24 +64,22 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
         response.put("data",dto);
         return ResponseEntity.ok().body(response);
     }
-    /*@DeleteMapping("/{id}") DEBIDO A REGLA DE NEGOCIOS NO IMPLEMENTADO
-    public ResponseEntity<?>deleteById(@PathVariable Long id){
-        Map<String,Object> response = new HashMap<>();
-        Optional<Categoria> categoria = super.optenerPorId(id);
-        if (categoria.isEmpty()){
-            response.put("message",Boolean.FALSE);
-            response.put("message",String.format("No se encontro %s con ID %d",nombre_entidad,id ));
+
+    @GetMapping("/searchByName/{likeNombre}")
+    public ResponseEntity<?> buscarPorNombreSimilar (@PathVariable String likeNombre){
+        Map<String, Object> response = new HashMap<>();
+        List<Categoria> categorias = (List<Categoria>) sevice.buscarPorNombreSimilar(likeNombre);
+
+        if (categorias.isEmpty()){
+            response.put("success", Boolean.FALSE);
+            response.put("message",String.format("no existe %s con Nombre %s ", nombre_entidad, likeNombre));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-        Categoria catEliminada = categoria.get();
-        super.eliminarPorId(catEliminada.getId());
-        CategoriaDTO dto = mapper.mapCategoria(catEliminada);
+        List<CategoriaDTO> categoriaDTOS = categorias.stream().map(mapper::mapCategoria).collect(Collectors.toList());
         response.put("success",Boolean.TRUE);
-        response.put("message",String.format("%s eliminada satisfactoriamente",nombre_entidad));
-        response.put("data",dto);
+        response.put("data",categoriaDTOS);
         return ResponseEntity.ok(response);
-    }*/
-
+    }
     @PostMapping("/")
     public ResponseEntity<?> saveCategoria(@Valid @RequestBody Categoria categoria, BindingResult result) {
         Map<String, Object> response = new HashMap<>();
@@ -102,10 +100,8 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
         response.put("succes", Boolean.TRUE);
         response.put("data", dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
     }
-
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<?> editarCategoria(@Valid @RequestBody Categoria categoria, BindingResult result, @PathVariable Long id){
         Map<String, Object> response = new HashMap<>();
         CategoriaDTO dto = null;
@@ -133,4 +129,22 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
         response.put("data", dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    /*@DeleteMapping("/{id}") DEBIDO A REGLA DE NEGOCIOS NO IMPLEMENTADO
+    public ResponseEntity<?>deleteById(@PathVariable Long id){
+        Map<String,Object> response = new HashMap<>();
+        Optional<Categoria> categoria = super.optenerPorId(id);
+        if (categoria.isEmpty()){
+            response.put("message",Boolean.FALSE);
+            response.put("message",String.format("No se encontro %s con ID %d",nombre_entidad,id ));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        Categoria catEliminada = categoria.get();
+        super.eliminarPorId(catEliminada.getId());
+        CategoriaDTO dto = mapper.mapCategoria(catEliminada);
+        response.put("success",Boolean.TRUE);
+        response.put("message",String.format("%s eliminada satisfactoriamente",nombre_entidad));
+        response.put("data",dto);
+        return ResponseEntity.ok(response);
+    }*/
 }
