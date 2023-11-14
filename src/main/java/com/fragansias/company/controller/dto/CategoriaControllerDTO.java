@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/categoria")
 @ConditionalOnProperty(prefix = "app",name = "controller.enable-dto",havingValue = "true")//PARA PODER ACTIVAR LA CONFIG DEL DTO
 public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, CategoriaDAO> {
+
+//       petdooo
     @Autowired
     private CategoriaMapper mapper;
     public CategoriaControllerDTO(CategoriaDAO sevice) {
