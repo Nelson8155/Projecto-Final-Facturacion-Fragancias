@@ -39,11 +39,8 @@ public class Producto implements Serializable{
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     @JoinColumn(name = "categoria_id")
-<<<<<<< HEAD
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "productos"})//utuilizamos estaanotacion para mostrar la relacion q existe entre entidades
-=======
     @JsonIgnoreProperties({"hibernateLazyInitializer","productos"})//utilizamos estaanotacion para mostrar la relacion q existe entre entidades
->>>>>>> 7873fda912e105d5abfe7b8f631a80bf81af200c
+
     private Categoria categoria;
     public Producto(String nombreProducto, String codigoProducto, Double precio, String presentacion) {
         this.nombreProducto = nombreProducto;
