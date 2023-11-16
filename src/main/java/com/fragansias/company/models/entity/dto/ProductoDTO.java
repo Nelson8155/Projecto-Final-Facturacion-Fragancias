@@ -1,5 +1,7 @@
 package com.fragansias.company.models.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fragansias.company.models.entity.Categoria;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,4 +38,6 @@ public class ProductoDTO {
     @NotNull
     @Size(min = 0, max = 100)
     private String presentacion;
+    @JsonIgnoreProperties({"hibernateLazyInitializer","productos"})
+    private Categoria categoria;
 }

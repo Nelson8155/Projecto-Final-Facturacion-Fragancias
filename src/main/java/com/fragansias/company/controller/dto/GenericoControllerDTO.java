@@ -10,25 +10,25 @@ import java.util.Map;
 import java.util.Optional;
 @AllArgsConstructor
 public class GenericoControllerDTO<E,S extends GenericoDAO<E>> {
-    protected final S sevice;
+    protected final S service;
     protected final String nombre_entidad;
 
     public List<E> obtenerTodos() {
-        return (List<E>) sevice.findAll();
+        return (List<E>) service.findAll();
     }
     public Optional<E> obtenerPorId(Long id){
-        return (Optional<E>) sevice.findById(id);
+        return (Optional<E>) service.findById(id);
     }
 
     /*public Optional<E> eliminarPorId(Long id){
       return sevice.deleteById(id);
     }*/
     void eliminarPorId(Long id){
-        sevice.deleteById(id);
+        service.deleteById(id);
     }
 
     public E altaEntidad(E entidad){
-        return sevice.save(entidad);
+        return service.save(entidad);
     }
     protected Map<String,Object> obtenerValidaciones(BindingResult result){
         Map<String,Object> validaciones = new HashMap<>();

@@ -12,22 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/categoria")
 @ConditionalOnProperty(prefix = "app",name = "controller.enable-dto",havingValue = "true")//PARA PODER ACTIVAR LA CONFIG DEL DTO
 public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, CategoriaDAO> {
-
-//       petdooo
     @Autowired
     private CategoriaMapper mapper;
-    public CategoriaControllerDTO(CategoriaDAO sevice) {
-        super(sevice,"categoria");
+    public CategoriaControllerDTO(CategoriaDAO service) {
+        super(service,"categoria");
     }
 
     @GetMapping("/")
@@ -66,18 +61,35 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
         response.put("data",dto);
         return ResponseEntity.ok().body(response);
     }
+    @GetMapping("/findByName/{nombre}")
+    public ResponseEntity<?> findByName(@PathVariable String nombre){
+        Map<String,Object> response = new HashMap<>();
+        Categoria categoria = service.findByName(nombre);
 
-    @GetMapping("/searchByName/{likeNombre}")
+        if (categoria==null){
+            response.put("success",Boolean.FALSE);
+            response.put("message", String.format("No existe %s con nombre %s", nombre_entidad, nombre));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        CategoriaDTO dto = mapper.mapCategoria(categoria);
+        response.put("success",Boolean.TRUE);
+        response.put("data", dto);
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/findSimilarName/{likeNombre}")
     public ResponseEntity<?> buscarPorNombreSimilar (@PathVariable String likeNombre){
         Map<String, Object> response = new HashMap<>();
-        List<Categoria> categorias = (List<Categoria>) sevice.buscarPorNombreSimilar(likeNombre);
+        List<Categoria> categorias = (List<Categoria>) service.buscarPorNombreSimilar(likeNombre);
 
         if (categorias.isEmpty()){
             response.put("success", Boolean.FALSE);
-            response.put("message",String.format("no existe %s con Nombre %s ", nombre_entidad, likeNombre));
+            response.put("message",String.format("No existe %s con nombre %s ", nombre_entidad, likeNombre));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-        List<CategoriaDTO> categoriaDTOS = categorias.stream().map(mapper::mapCategoria).collect(Collectors.toList());
+        List<CategoriaDTO> categoriaDTOS = categorias
+                .stream()
+                .map(mapper::mapCategoria)
+                .collect(Collectors.toList());
         response.put("success",Boolean.TRUE);
         response.put("data",categoriaDTOS);
         return ResponseEntity.ok(response);
@@ -86,10 +98,10 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
     public ResponseEntity<?> saveCategoria(@Valid @RequestBody Categoria categoria, BindingResult result) {
         Map<String, Object> response = new HashMap<>();
         CategoriaDTO dto = null;
-        Categoria categoriaLocal = sevice.findByName(categoria.getNombreCategoria());
+        Categoria categoriaLocal = service.findByName(categoria.getNombreCategoria());
 
         if (result.hasErrors()){
-            response.put("succes", Boolean.FALSE);
+            response.put("success", Boolean.FALSE);
             response.put("validaciones", super.obtenerValidaciones(result));
             return ResponseEntity.badRequest().body(response);
         } else if (categoriaLocal != null){
@@ -97,14 +109,16 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
             response.put("validaciones", String.format("La %s que se desea crear ya existe", nombre_entidad));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        Categoria oCategoria = super.altaEntidad((Categoria) categoria);
+        Categoria oCategoria = super.altaEntidad(categoria);
         dto = mapper.mapCategoria(oCategoria);
-        response.put("succes", Boolean.TRUE);
+        response.put("success", Boolean.TRUE);
         response.put("data", dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarCategoria(@Valid @RequestBody Categoria categoria, BindingResult result, @PathVariable Long id){
+    public ResponseEntity<?> editarCategoria(@Valid @RequestBody Categoria categoria,
+                                             BindingResult result, @PathVariable Long id){
         Map<String, Object> response = new HashMap<>();
         CategoriaDTO dto = null;
         Optional<Categoria> oCategoria = super.obtenerPorId(id);
@@ -149,4 +163,9 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
         response.put("data",dto);
         return ResponseEntity.ok(response);
     }*/
+
+    //Depende de la busqueda asi se usa, iterable, optional o la entidad
+    //cateria quiero uno
+    //iterable lista
+    //optional depende de la implementacion del metodo
 }

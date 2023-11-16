@@ -16,6 +16,13 @@ public class ProductoImpl extends GenericoDAOImpl<Producto, ProductoRepository> 
     public ProductoImpl(ProductoRepository repository) {
         super(repository);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Producto findByName(String nombre) {
+        return repository.findByName(nombre);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<Producto> obtenerPorCodigo(String codigo) {
@@ -29,9 +36,7 @@ public class ProductoImpl extends GenericoDAOImpl<Producto, ProductoRepository> 
     }
 
     @Override
-    public List<Producto> obtenerPorNombreProducto(String name) {
-        return (List<Producto>) repository.busquedaPorNombreDeProducto(name);
+    public List<Producto> obtenerPorNombreSimilar(String name) {
+        return (List<Producto>) repository.busquedaPorNombreSimilar(name);
     }
-
-
 }

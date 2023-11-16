@@ -1,19 +1,19 @@
 
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (1, "CATEGORIA_AD"," DAMAS"," Perfume Concentrado ANTOBA");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (2, "CATEGORIA_BD", "DAMAS"," Perfume Concentrado BRITS");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (3, "CATEGORIA_CD"," DAMAS"," Perfume Concentrado CHRID");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (4, "CATEGORIA_DD"," DAMAS"," Perfume Concentrado DULGI");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (5, "CATEGORIA_ED"," DAMAS"," Perfume Concentrado ELI");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (6, "CATEGORIA_AC"," CABALLEROS"," Perfume Concentrado ABER");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (7, "CATEGORIA_BC"," CABALLEROS"," Perfume Concentrado BLANCO");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (8, "CATEGORIA_CC"," CABALLEROS"," Perfume Concentrado CHRID");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (9, "CATEGORIA_DC"," CABALLEROS"," Perfume Concentrado DIDA");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (10, "CATEGORIA_EC"," CABALLEROS"," Perfume Concentrado ELI");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (11, "CATEGORIA_AU"," UNISEX"," Perfume Concentrado ARMISS");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (12, "CATEGORIA_CU"," UNISEX"," Perfume Concentrado CHRID");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (13, "CATEGORIA_DU"," UNISEX"," Perfume Concentrado DOKA");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (14, "CATEGORIA_GU"," UNISEX"," Perfume Concentrado GICHI");
-insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (15, "CATEGORIA_JU"," UNISEX"," Perfume Concentrado JACO");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (1, "CATEGORIA_AD"," DAMAS"," Perfume Concentrado ANTOBA");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (2, "CATEGORIA_BD", "DAMAS"," Perfume Concentrado BRITS");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (3, "CATEGORIA_CD"," DAMAS"," Perfume Concentrado CHRID");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (4, "CATEGORIA_DD"," DAMAS"," Perfume Concentrado DULGI");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (5, "CATEGORIA_ED"," DAMAS"," Perfume Concentrado ELI");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (6, "CATEGORIA_AC"," CABALLEROS"," Perfume Concentrado ABER");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (7, "CATEGORIA_BC"," CABALLEROS"," Perfume Concentrado BLANCO");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (8, "CATEGORIA_CC"," CABALLEROS"," Perfume Concentrado CHRID");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (9, "CATEGORIA_DC"," CABALLEROS"," Perfume Concentrado DIDA");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (10, "CATEGORIA_EC"," CABALLEROS"," Perfume Concentrado ELI");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (11, "CATEGORIA_AU"," UNISEX"," Perfume Concentrado ARMISS");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (12, "CATEGORIA_CU"," UNISEX"," Perfume Concentrado CHRID");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (13, "CATEGORIA_DU"," UNISEX"," Perfume Concentrado DOKA");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (14, "CATEGORIA_GU"," UNISEX"," Perfume Concentrado GICHI");
+insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (15, "CATEGORIA_JU"," UNISEX"," Perfume Concentrado JACO");
 
 
 insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,categoria_id) values (1,"P.C.SeduccionAzulAntobaF","PC001",15.00,"100 ML",1);

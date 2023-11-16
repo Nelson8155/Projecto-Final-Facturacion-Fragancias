@@ -62,7 +62,7 @@ public class ProductoController extends GenericController<Producto, ProductoDAO>
         List<Producto> productos = new ArrayList<>();
         Map<String,Object> response = new HashMap<>();
         try {
-            productos = service.obtenerPorNombreProducto(name);
+            productos = service.obtenerPorNombreSimilar(name);
             if(productos.isEmpty()){
                 response.put("message:","Producto no encontrado");
                 return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
