@@ -32,7 +32,7 @@ public class Producto {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer","productos"})//utuilizamos estaanotacion para mostrar la relacion q existe entre entidades
+    @JsonIgnoreProperties({"hibernateLazyInitializer","productos"})//utilizamos estaanotacion para mostrar la relacion q existe entre entidades
     private Categoria categoria;
     public Producto(String nombreProducto, String codigoProducto, Double precio, String presentacion) {
         this.nombreProducto = nombreProducto;
