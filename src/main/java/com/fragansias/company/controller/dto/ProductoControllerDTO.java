@@ -192,4 +192,23 @@ public class ProductoControllerDTO extends GenericoControllerDTO<Producto, Produ
         return null;
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?>deleteById(@PathVariable Long id){
+        Map<String,Object> response = new HashMap<>();
+        Optional<Producto> producto = super.obtenerPorId(id);
+        if (producto.isEmpty()){
+            response.put("message",Boolean.FALSE);
+            response.put("message",String.format("No se encontro %s con ID %d",nombre_entidad,id ));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+
+        Producto proEliminado = producto.get();
+        super.eliminarPorId(proEliminado.getId());
+        ProductoDTO dto = mapper.mapProducto(proEliminado);
+        response.put("success",Boolean.TRUE);
+        response.put("message",String.format("%s eliminada satisfactoriamente",nombre_entidad));
+        response.put("data",dto);
+        return ResponseEntity.ok(response);
+    }
+
 }
