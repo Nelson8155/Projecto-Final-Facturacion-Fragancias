@@ -68,7 +68,7 @@ insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,cat
 insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,categoria_id) values (36,"P.C.MargaritaJaco(2015)","PC036",15.00,"100 ML",15);
 
 
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (1, "1234567890", "Juan", "Pérez", "555-123-4567", "juan.perez@example.com");
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (1, "12345678903", "Juan", "Pérez", "555-123-4567", "juan.perez@example.com");
 insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (2, "98765432210", "María", "González", "555-987-6543", "maria.gonzalez@example.com");
 insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (3, "5678901234", "Pedro", "Ramírez", "555-567-8901", "pedro.ramirez@example.com");
 insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (4, "4321098765", "Luisa", "López", "555-432-1098", "luisa.lopez@example.com");

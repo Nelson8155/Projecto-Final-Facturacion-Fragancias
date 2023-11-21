@@ -29,7 +29,7 @@ public class DetalleCliente {
         this.municipio = municipio;
         this.sexo = sexo;
     }
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 }

@@ -1,47 +1,143 @@
 package com.fragansias.company.controller.dto;
 
-import com.fragansias.company.models.entity.Categoria;
 import com.fragansias.company.models.entity.Cliente;
 import com.fragansias.company.models.entity.dto.ClienteDTO;
-import com.fragansias.company.service.contrato.CategoriaDAO;
+import com.fragansias.company.models.entity.dto.DetalleCLienteDTO;
+import com.fragansias.company.models.entity.mapper.mapstruct.ClienteMapper;
 import com.fragansias.company.service.contrato.ClienteDAO;
+import com.fragansias.company.service.contrato.DetalleClienteDAO;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("clientes")
-@ConditionalOnProperty(prefix = "spring", name = "controller.enable-dto",havingValue = "true")
+@RequestMapping("/clientes")
+@ConditionalOnProperty(prefix = "app", name = "controller.enable-dto",havingValue = "true")
 public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, ClienteDAO>{
+    @Autowired
+    private ClienteMapper mapper;
+    private final DetalleClienteDAO detalleClienteDAO;
 
 
-    public ClienteControllerDTO(ClienteDAO sevice) {
+    public ClienteControllerDTO(ClienteDAO sevice, ClienteMapper mapper, ClienteDAO service, DetalleClienteDAO detalleClienteDAO) {
         super(sevice, "Cliente");
+
+        this.detalleClienteDAO=detalleClienteDAO;
+
+    }
+    @GetMapping("/{id}")
+        public ResponseEntity<?> findById(@PathVariable Long id){
+        Optional<Cliente> clientes = super.obtenerPorId(id);
+        Map<String, Object> response = new HashMap<>();
+        Cliente cliente;
+        ClienteDTO dto = null;
+
+        if (!clientes.isEmpty()){
+            response.put("success",Boolean.FALSE);
+            response.put("messagge",String.format("no existe %s con ID %d",nombre_entidad,id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        cliente = clientes.get();
+        dto=mapper.mapCliente(cliente);
+        response.put("message",Boolean.TRUE);
+        response.put("data",dto);
+        return ResponseEntity.ok().body(response);
+
+    }
+    @GetMapping("/findAll/")
+    public ResponseEntity<?> findAll(){
+        List<Cliente> clientes = super.obtenerTodos();
+        Map<String,Object> response = new HashMap<>();
+
+        if (clientes.isEmpty()){
+            response.put("message",Boolean.FALSE);
+            response.put("success",String.format("no se encontro %ss cargadas",nombre_entidad));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        List<ClienteDTO> clienteDTOS = clientes
+                .stream()
+                .map(mapper::mapCliente)
+                .collect(Collectors.toList());
+        response.put("message",Boolean.TRUE);
+        response.put("data",clienteDTOS);
+        return ResponseEntity.ok().body(response);
+
     }
 
-    @GetMapping("/buscarPorNombre/{name}/apellido/{apellido}")
-    public ResponseEntity<?> searchByNameAndApellido(@PathVariable String name,@PathVariable String apellido){
+    @GetMapping("/findByName/{name}/lastName/{apellido}")
+    public ResponseEntity<?> searchByNameAndLastName(@PathVariable String name,@PathVariable String apellido){
         Map<String,Object> response = new HashMap<>();
-        Optional<Cliente> clientes = service.buscarPorNombreYApellido(name,apellido);
-
-
+        Optional<Cliente> clientes = Optional.ofNullable(service.buscarPorNombreYApellido(name, apellido));
 
         if(!clientes.isPresent()){
             response.put("success",Boolean.FALSE);
             response.put("validaciones",String.format("No se encontro Cliente con nombre %s y apellido %s",name,apellido));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
+        List<ClienteDTO> clienteDTOS = clientes
+                .stream()
+                .map(mapper::mapCliente)
+                .collect(Collectors.toList());
+        response.put("success",Boolean.FALSE);
+        response.put("data",clienteDTOS);
 
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/findByNit/{nit}")
+    public ResponseEntity<?> findByNit(@PathVariable String nit){
+        Optional<Cliente> clientes = service.buscarPorNit(nit);
+        Map<String,Object> response = new HashMap<>();
+        Cliente cliente;
+        ClienteDTO clienteDTO;
 
+        if(clientes.isEmpty()){
+            response.put("success",Boolean.FALSE);
+            response.put("message",String.format("No se encontro Cliente con Nit %s ",nit));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        cliente = clientes.get();
+        clienteDTO = mapper.mapCliente(cliente);
+        response.put("message",Boolean.TRUE);
+        response.put("data",clienteDTO);
+        return ResponseEntity.ok().body(response);
+    }
+    @GetMapping("/findByEmail/{email}")
+    public ResponseEntity<?> findByEmail(@PathVariable String email){
+        List<Cliente> clientes = service.buscarPorCorreo(email);
+        Map<String,Object> response = new HashMap<>();
+
+        if (clientes.isEmpty()){
+            response.put("message",Boolean.FALSE);
+            response.put("success",String.format("No se encontro %s con Email %s",nombre_entidad));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        List<ClienteDTO> clienteDTOS= clientes
+                .stream()
+                .map(mapper::mapCliente)
+                .collect(Collectors.toList());
+        response.put("message",Boolean.TRUE);
+        response.put("Data",clienteDTOS);
+        return ResponseEntity.ok().body(response);
+    }
+    @PostMapping("/saveProducto")
+    public ResponseEntity<?> saveCliente (@Valid @RequestBody Cliente cliente, BindingResult result){
+        Map<String,Object> response = new HashMap<>();
+        ClienteDTO dto = null;
+       Cliente clienteLocal = service.buscarPorNombreYApellido(cliente.getNombre(), cliente.getApellido());
+        DetalleCLienteDTO detalleCLienteDTOLocal = detalleClienteDAO.findById(cliente.getId());
+
+        if(result.hasErrors())
 
     }
+
 }

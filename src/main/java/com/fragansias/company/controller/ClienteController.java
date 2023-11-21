@@ -43,7 +43,7 @@ public class ClienteController extends GenericController<Cliente, ClienteDAO>  {
         List<Cliente> clientes = new ArrayList<>();
         Map<String,Object> response = new HashMap<>();
         try {
-            clientes = (List<Cliente>) service.buscarPorNit(nit);
+            //clientes = (List<Cliente>) service.buscarPorNit(nit);
             if(clientes.isEmpty()){
                 response.put("message:","!No se encontraron Resultados!");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);

@@ -1,10 +1,10 @@
 package com.fragansias.company.service.contrato;
 
-import java.util.Optional;
+import com.fragansias.company.models.entity.dto.DetalleCLienteDTO;
 
 public interface GenericoDAO <E> {
 
-    Optional<E> findById(Long id);
+    DetalleCLienteDTO findById(Long id);
     E save(E entidad);
     Iterable<E> findAll();
     void deleteById(Long id);
