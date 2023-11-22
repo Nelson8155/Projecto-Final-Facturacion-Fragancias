@@ -1,6 +1,7 @@
 package com.fragansias.company.models.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,6 @@ import java.util.Set;
 public class Categoria implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categoria_id")
     private Long id;
     @Column(name = "nombre_categoria")
     private String nombreCategoria;
@@ -30,9 +30,12 @@ public class Categoria implements Serializable{
     private String descripcion;
 
     @OneToMany(
-            mappedBy = "categoria",
-            fetch = FetchType.LAZY
+            //mappedBy = "categoria",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST
     )
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "categorias"})
+    @JoinColumn(name = "categoria_id")
     private Set<Producto> productos = new HashSet<>();
 
 }

@@ -5,26 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-@Entity
-@Table(name = "detalles_productos")
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Embeddable
 public class DetalleProducto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "description")
+
     private String descripcion;
-    @Column(name = "año")
-    private Date year ;
+    @Column(name = "fecha_creacion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreacion ;
     @Column(name = "tipo_de_frasco")
     private String tipoFrasco;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "producto_id")
-    private Producto producto;
 }

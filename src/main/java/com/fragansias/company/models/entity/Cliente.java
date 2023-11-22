@@ -29,8 +29,9 @@ public class Cliente {
     private String telefono;
     @Column(name = "correo_email",nullable = false)
     private String email;
-    @OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Set<DetalleCliente> detalleClientes;
+
+    @Embedded
+    private DetalleCliente detalleCliente;
 
     @Embedded
     private Auditoria audit = new Auditoria();

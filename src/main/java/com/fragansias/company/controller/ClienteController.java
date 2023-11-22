@@ -24,10 +24,10 @@ public class ClienteController extends GenericController<Cliente, ClienteDAO>  {
 
     @GetMapping("/buscarPorNombreYApellido/{nombre}/apellido/{apellido}")
     public ResponseEntity<?> buscarPersonaPorNombreYApellido(@PathVariable String nombre,@PathVariable String apellido){
-        Optional<Cliente> oCliente ;
+        Optional<Optional<Cliente>> oCliente ;
         Map<String,Object> response = new HashMap<>();
         try {
-            oCliente = service.buscarPorNombreYApellido(nombre,apellido);
+            oCliente = Optional.ofNullable(service.buscarPorNombreYApellido(nombre, apellido));
             if(oCliente.isEmpty()){
                 response.put("message:","!No se encontraron Resultados!");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);

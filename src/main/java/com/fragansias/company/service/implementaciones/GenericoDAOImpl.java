@@ -1,9 +1,10 @@
 package com.fragansias.company.service.implementaciones;
 
-import com.fragansias.company.models.entity.dto.DetalleCLienteDTO;
 import com.fragansias.company.service.contrato.GenericoDAO;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 public class GenericoDAOImpl <E, R extends CrudRepository<E, Long>> implements GenericoDAO<E>{
 
@@ -15,7 +16,7 @@ public class GenericoDAOImpl <E, R extends CrudRepository<E, Long>> implements G
 
     @Override
     @Transactional(readOnly = true)
-    public DetalleCLienteDTO findById(Long id) {
+    public Optional findById(Long id) {
         return repository.findById(id);
     }
     @Override

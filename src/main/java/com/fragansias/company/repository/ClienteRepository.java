@@ -14,7 +14,4 @@ public interface ClienteRepository extends CrudRepository<Cliente,Long> {
     Optional<Cliente> buscarPorNit(String param1);
     @Query("select c From Cliente c where upper(c.email) = upper(?1)")
     Iterable<Cliente> buscarPorCorreo(String email);
-   @Query("select c from Cliente c  join fetch c.detalleClientes d where upper(c.nombre) like upper(?1)")
-   List<Cliente> mostrarDetallesCliente(String nombre);
-
 }

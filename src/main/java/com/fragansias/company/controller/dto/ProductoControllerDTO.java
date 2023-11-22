@@ -210,5 +210,4 @@ public class ProductoControllerDTO extends GenericoControllerDTO<Producto, Produ
         response.put("data",dto);
         return ResponseEntity.ok(response);
     }
-
 }

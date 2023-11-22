@@ -17,8 +17,8 @@ public class ClienteImpl extends GenericoDAOImpl<Cliente, ClienteRepository>impl
     }
 
     @Override
-    public Cliente buscarPorNombreYApellido(String nombre, String apellido) {
-        return repository.buscarPorNombreYApellido(nombre,apellido);
+    public Optional<Cliente> buscarPorNombreYApellido(String nombre, String apellido) {
+        return repository.buscarPorNombreYApellido(nombre, apellido);
     }
 
     @Override
@@ -28,11 +28,7 @@ public class ClienteImpl extends GenericoDAOImpl<Cliente, ClienteRepository>impl
 
     @Override
     public List<Cliente> buscarPorCorreo(String email) {
-        return (List<Cliente>)repository.buscarPorCorreo(email);
-    }
-
-    @Override
-    public Iterable<Cliente> mostrarDetallesCliente(String name) {
-        return repository.mostrarDetallesCliente(name);
+        return (List<Cliente>) repository.buscarPorCorreo(email);
     }
 }
+

@@ -2,16 +2,12 @@ package com.fragansias.company.controller.dto;
 
 import com.fragansias.company.models.entity.Cliente;
 import com.fragansias.company.models.entity.dto.ClienteDTO;
-import com.fragansias.company.models.entity.dto.DetalleCLienteDTO;
 import com.fragansias.company.models.entity.mapper.mapstruct.ClienteMapper;
 import com.fragansias.company.service.contrato.ClienteDAO;
-import com.fragansias.company.service.contrato.DetalleClienteDAO;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -26,13 +22,10 @@ import java.util.stream.Collectors;
 public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, ClienteDAO>{
     @Autowired
     private ClienteMapper mapper;
-    private final DetalleClienteDAO detalleClienteDAO;
 
 
-    public ClienteControllerDTO(ClienteDAO sevice, ClienteMapper mapper, ClienteDAO service, DetalleClienteDAO detalleClienteDAO) {
+    public ClienteControllerDTO(ClienteDAO sevice, ClienteMapper mapper, ClienteDAO service) {
         super(sevice, "Cliente");
-
-        this.detalleClienteDAO=detalleClienteDAO;
 
     }
     @GetMapping("/{id}")
@@ -42,7 +35,7 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
         Cliente cliente;
         ClienteDTO dto = null;
 
-        if (!clientes.isEmpty()){
+        if (clientes.isEmpty()){
             response.put("success",Boolean.FALSE);
             response.put("messagge",String.format("no existe %s con ID %d",nombre_entidad,id));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
@@ -77,17 +70,14 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
     @GetMapping("/findByName/{name}/lastName/{apellido}")
     public ResponseEntity<?> searchByNameAndLastName(@PathVariable String name,@PathVariable String apellido){
         Map<String,Object> response = new HashMap<>();
-        Optional<Cliente> clientes = Optional.ofNullable(service.buscarPorNombreYApellido(name, apellido));
+        Optional<Cliente> clientes = service.buscarPorNombreYApellido(name, apellido);
 
         if(!clientes.isPresent()){
             response.put("success",Boolean.FALSE);
             response.put("validaciones",String.format("No se encontro Cliente con nombre %s y apellido %s",name,apellido));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-        List<ClienteDTO> clienteDTOS = clientes
-                .stream()
-                .map(mapper::mapCliente)
-                .collect(Collectors.toList());
+        ClienteDTO clienteDTOS = mapper.mapCliente(clientes.get());
         response.put("success",Boolean.FALSE);
         response.put("data",clienteDTOS);
 
@@ -129,15 +119,15 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
         response.put("Data",clienteDTOS);
         return ResponseEntity.ok().body(response);
     }
-    @PostMapping("/saveProducto")
+    /*@PostMapping("/saveProducto")
     public ResponseEntity<?> saveCliente (@Valid @RequestBody Cliente cliente, BindingResult result){
         Map<String,Object> response = new HashMap<>();
         ClienteDTO dto = null;
        Cliente clienteLocal = service.buscarPorNombreYApellido(cliente.getNombre(), cliente.getApellido());
-        DetalleCLienteDTO detalleCLienteDTOLocal = detalleClienteDAO.findById(cliente.getId());
+        Optional detalleCLienteDTOLocal = detalleClienteDAO.findById(cliente.getId());
 
-        if(result.hasErrors())
+        //if(result.hasErrors())
 
-    }
+    }*/
 
 }

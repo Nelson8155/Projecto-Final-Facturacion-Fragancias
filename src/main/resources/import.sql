@@ -1,22 +1,22 @@
 
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (1, "CATEGORIA_AD"," DAMAS"," Perfume Concentrado ANTOBA");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (2, "CATEGORIA_BD", "DAMAS"," Perfume Concentrado BRITS");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (3, "CATEGORIA_CD"," DAMAS"," Perfume Concentrado CHRID");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (4, "CATEGORIA_DD"," DAMAS"," Perfume Concentrado DULGI");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (5, "CATEGORIA_ED"," DAMAS"," Perfume Concentrado ELI");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (6, "CATEGORIA_AC"," CABALLEROS"," Perfume Concentrado ABER");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (7, "CATEGORIA_BC"," CABALLEROS"," Perfume Concentrado BLANCO");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (8, "CATEGORIA_CC"," CABALLEROS"," Perfume Concentrado CHRID");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (9, "CATEGORIA_DC"," CABALLEROS"," Perfume Concentrado DIDA");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (10, "CATEGORIA_EC"," CABALLEROS"," Perfume Concentrado ELI");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (11, "CATEGORIA_AU"," UNISEX"," Perfume Concentrado ARMISS");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (12, "CATEGORIA_CU"," UNISEX"," Perfume Concentrado CHRID");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (13, "CATEGORIA_DU"," UNISEX"," Perfume Concentrado DOKA");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (14, "CATEGORIA_GU"," UNISEX"," Perfume Concentrado GICHI");
-insert into categorias(categoria_id,nombre_categoria,genero,descripcion_categoria) values (15, "CATEGORIA_JU"," UNISEX"," Perfume Concentrado JACO");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (1, "CATEGORIA_AD"," DAMAS"," Perfume Concentrado ANTOBA");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (2, "CATEGORIA_BD", "DAMAS"," Perfume Concentrado BRITS");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (3, "CATEGORIA_CD"," DAMAS"," Perfume Concentrado CHRID");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (4, "CATEGORIA_DD"," DAMAS"," Perfume Concentrado DULGI");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (5, "CATEGORIA_ED"," DAMAS"," Perfume Concentrado ELI");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (6, "CATEGORIA_AC"," CABALLEROS"," Perfume Concentrado ABER");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (7, "CATEGORIA_BC"," CABALLEROS"," Perfume Concentrado BLANCO");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (8, "CATEGORIA_CC"," CABALLEROS"," Perfume Concentrado CHRID");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (9, "CATEGORIA_DC"," CABALLEROS"," Perfume Concentrado DIDA");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (10, "CATEGORIA_EC"," CABALLEROS"," Perfume Concentrado ELI");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (11, "CATEGORIA_AU"," UNISEX"," Perfume Concentrado ARMISS");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (12, "CATEGORIA_CU"," UNISEX"," Perfume Concentrado CHRID");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (13, "CATEGORIA_DU"," UNISEX"," Perfume Concentrado DOKA");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (14, "CATEGORIA_GU"," UNISEX"," Perfume Concentrado GICHI");
+insert into categorias(id,nombre_categoria,genero,descripcion_categoria) values (15, "CATEGORIA_JU"," UNISEX"," Perfume Concentrado JACO");
 
 
-insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,categoria_id) values (1,"P.C.SeduccionAzulAntobaF","PC001",15.00,"100 ML",1);
+insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,categoria_id, descripcion, fecha_creacion, tipo_de_frasco) values (1,"P.C.SeduccionAzulAntobaF","PC001",15.00,"100 ML",1, "fragancia femenina", "2010-01-01", "botella");
 insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,categoria_id) values (2,"P.C.ReinaDeSeducciónAntobaF(2017)","PC002",30.00,"100 ML",1);
 insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,categoria_id) values (3,"P.C.ElSecretoDoradoAntobaF","PC003",20.00,"100 ML",1);
 
@@ -68,20 +68,21 @@ insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,cat
 insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,categoria_id) values (36,"P.C.MargaritaJaco(2015)","PC036",15.00,"100 ML",15);
 
 
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (1, "12345678903", "Juan", "Pérez", "555-123-4567", "juan.perez@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (2, "98765432210", "María", "González", "555-987-6543", "maria.gonzalez@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (3, "5678901234", "Pedro", "Ramírez", "555-567-8901", "pedro.ramirez@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (4, "4321098765", "Luisa", "López", "555-432-1098", "luisa.lopez@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (5, "3210987654", "Miguel", "Torres", "555-321-0987", "miguel.torres@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (6, "2345678901", "Sofía", "Martínez", "555-234-5678", "sofia.martinez@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (7, "6789012345", "Carlos", "Fernández", "555-678-9012", "carlos.fernandez@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (8, "7890123456", "Laura", "Sánchez", "555-789-0123", "laura.sanchez@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (9, "4567890123", "Andrés", "Rodríguez", "555-456-7890", "andres.rodriguez@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (10, "8901234567", "Elena", "Hernández", "555-890-1234", "elena.hernandez@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (11, "6543210987", "Javier", "Luna", "555-654-3210", "javier.luna@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (12, "2345678901", "Lucía", "Paredes", "555-234-5678", "lucia.paredes@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (13, "7654321098", "Antonio", "Ortega", "555-765-4321", "antonio.ortega@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (14, "1234567890", "Carmen", "Díaz", "555-123-4567", "carmen.diaz@example.com");
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email) values (15, "9876543210", "Diego", "Santos", "555-987-6543", "diego.santos@example.com");
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(1, "12345678903", "Juan", "Pérez", "555-123-4567", "juan.perez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(2, "98765432210", "María", "González", "555-987-6543", "maria.gonzalez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(3, "5678901234", "Pedro", "Ramírez", "555-567-8901", "pedro.ramirez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(4, "4321098765", "Luisa", "López", "555-432-1098", "luisa.lopez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(5, "3210987654", "Miguel", "Torres", "555-321-0987", "miguel.torres@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(6, "2345678901", "Sofía", "Martínez", "555-234-5678", "sofia.martinez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(7, "6789012345", "Carlos", "Fernández", "555-678-9012", "carlos.fernandez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(8, "7890123456", "Laura", "Sánchez", "555-789-0123", "laura.sanchez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(9, "4567890123", "Andrés", "Rodríguez", "555-456-7890", "andres.rodriguez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(10, "8901234567", "Elena", "Hernández", "555-890-1234", "elena.hernandez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(11, "6543210987", "Javier", "Luna", "555-654-3210", "javier.luna@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(12, "2345678901", "Lucía", "Paredes", "555-234-5678", "lucia.paredes@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(13, "7654321098", "Antonio", "Ortega", "555-765-4321", "antonio.ortega@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(14, "1234567890", "Carmen", "Díaz", "555-123-4567", "carmen.diaz@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(15, "9876543210", "Diego", "Santos", "555-987-6543", "diego.santos@example.com", null, null, null, null);
+
 
 
