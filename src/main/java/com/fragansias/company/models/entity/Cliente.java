@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 import java.util.Set;
@@ -31,6 +32,9 @@ public class Cliente {
     private String email;
 
     @Embedded
+    @AttributeOverrides(
+            @AttributeOverride(name = "direccion", column =@Column(name = "direccion_s"))
+    )
     private DetalleCliente detalleCliente;
 
     @Embedded

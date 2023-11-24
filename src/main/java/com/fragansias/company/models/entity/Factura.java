@@ -40,4 +40,6 @@ public class Factura {
     @JoinColumn(name = "factura_id")
     private Set<ItemFactura> itemFacturas;
 
+
+
 }

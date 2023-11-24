@@ -16,6 +16,12 @@ public class ClienteImpl extends GenericoDAOImpl<Cliente, ClienteRepository>impl
         super(repository);
     }
 
+
+    @Override
+    public Optional<Cliente> findByName(String name) {
+        return repository.findByName(name);
+    }
+
     @Override
     public Optional<Cliente> buscarPorNombreYApellido(String nombre, String apellido) {
         return repository.buscarPorNombreYApellido(nombre, apellido);

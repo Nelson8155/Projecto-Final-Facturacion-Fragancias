@@ -4,10 +4,12 @@ import com.fragansias.company.models.entity.Cliente;
 import com.fragansias.company.models.entity.dto.ClienteDTO;
 import com.fragansias.company.models.entity.mapper.mapstruct.ClienteMapper;
 import com.fragansias.company.service.contrato.ClienteDAO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -119,15 +121,27 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
         response.put("Data",clienteDTOS);
         return ResponseEntity.ok().body(response);
     }
-    /*@PostMapping("/saveProducto")
+    @PostMapping("/saveProducto")
     public ResponseEntity<?> saveCliente (@Valid @RequestBody Cliente cliente, BindingResult result){
         Map<String,Object> response = new HashMap<>();
         ClienteDTO dto = null;
-       Cliente clienteLocal = service.buscarPorNombreYApellido(cliente.getNombre(), cliente.getApellido());
-        Optional detalleCLienteDTOLocal = detalleClienteDAO.findById(cliente.getId());
+       Optional<Cliente> clienteLocal = service.findByName(cliente.getNombre());
 
-        //if(result.hasErrors())
+       if(result.hasErrors()){
+           response.put("success",Boolean.FALSE);
+           response.put("validaciones",super.obtenerValidaciones(result));
+           return ResponseEntity.badRequest().body(response);
+       } else if (clienteLocal.isPresent()) {
+           response.put("success",Boolean.FALSE);
+           response.put("validaciones",String.format("La %s que se desea crear ya existe",nombre_entidad));
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+       }
+       Cliente clientes = super.altaEntidad(cliente);
+       dto = mapper.mapCliente(clientes);
+       response.put("success",Boolean.TRUE);
+       response.put("data",dto);
+       return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
-    }*/
+    }
 
 }

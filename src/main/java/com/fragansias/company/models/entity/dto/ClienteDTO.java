@@ -1,5 +1,6 @@
 package com.fragansias.company.models.entity.dto;
 
+import com.fragansias.company.models.entity.DetalleCliente;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -9,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,4 +32,7 @@ public class ClienteDTO {
     private String telefono;
     @Email
     private String email;
+
+
+    private DetalleCliente detalleCliente;
 }
