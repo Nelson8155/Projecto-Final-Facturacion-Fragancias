@@ -141,7 +141,37 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
        response.put("success",Boolean.TRUE);
        response.put("data",dto);
        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCliente(@Valid @RequestBody ClienteDTO clienteDTO,
+                                           BindingResult result,@PathVariable Long id){
+        Map<String,Object> response = new HashMap<>();
+        Cliente cliente=null;
+        Optional<Cliente> oCliente = super.obtenerPorId(id);
+        Cliente clienteUpdate;
+
+        if(result.hasErrors()){
+            response.put("success",Boolean.FALSE);
+            response.put("validaciones",super.obtenerValidaciones(result));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        if(!oCliente.isPresent()
+        ){
+            response.put("mensaje",String.format("La %s que se desea editar ya existe",nombre_entidad,id));
+            return ResponseEntity.badRequest().body(response);
+        }
+        clienteUpdate = oCliente.get();
+        clienteUpdate.setNombre(clienteUpdate.getNombre());
+        clienteUpdate.setApellido(clienteUpdate.getApellido());
+        clienteUpdate.setTelefono(clienteUpdate.getTelefono());
+        clienteUpdate.setEmail(clienteUpdate.getEmail());
+        clienteUpdate.setEmail(cliente.getEmail());
+
+        response.put("datos",service.save(clienteUpdate));
+        response.put("success",Boolean.TRUE);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }
+
 
 }

@@ -2,10 +2,7 @@ package com.fragansias.company.models.entity.dto;
 
 import com.fragansias.company.models.entity.DetalleCliente;
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +15,9 @@ import java.util.List;
 @Data
 @ToString
 public class ClienteDTO {
-    @NotEmpty
+    /*@NotEmpty
     @NotNull
+    @NotBlank*/
     private Long id_cliente;
    @NotEmpty
    @Size(min = 0,max = 17)
