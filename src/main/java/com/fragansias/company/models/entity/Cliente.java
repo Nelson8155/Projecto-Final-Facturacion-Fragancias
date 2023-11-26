@@ -1,5 +1,6 @@
 package com.fragansias.company.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 import java.util.Set;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "clientes")
@@ -47,6 +50,16 @@ public class Cliente {
     @NotEmpty(message = "Este campo no puede estar vacio!")
     @NotNull
     private String email;
+
+    @OneToMany(
+            fetch = LAZY,
+            cascade = {CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE}
+    )
+    @JsonIgnoreProperties({"hibernateLazyInitializer","clientes"})
+    @JoinColumn(name = "cliente_id")
+    private List<Factura> factura;
 
     @Embedded
     @AttributeOverrides({

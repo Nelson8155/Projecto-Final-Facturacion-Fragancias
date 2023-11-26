@@ -1,12 +1,13 @@
 package com.fragansias.company.controller.dto;
 
-import com.fragansias.company.models.entity.Categoria;
+import com.fragansias.company.models.entity.Cliente;
 import com.fragansias.company.models.entity.Factura;
+import com.fragansias.company.models.entity.Producto;
 import com.fragansias.company.models.entity.dto.FacturaDTO;
-import com.fragansias.company.models.entity.mapper.mapstruct.CategoriaMapper;
 import com.fragansias.company.models.entity.mapper.mapstruct.FacturaMapper;
-import com.fragansias.company.service.contrato.CategoriaDAO;
+import com.fragansias.company.service.contrato.ClienteDAO;
 import com.fragansias.company.service.contrato.FacturaDAO;
+import com.fragansias.company.service.contrato.ProductoDAO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -15,10 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/factura")
@@ -27,32 +29,55 @@ public class FacturaControllerDTO extends GenericoControllerDTO<Factura, Factura
 
     @Autowired
     private FacturaMapper mapper;
+    private final ClienteDAO clienteDAO;
 
-    public FacturaControllerDTO(FacturaDAO service) {
+    public FacturaControllerDTO(FacturaDAO service, ProductoDAO productoDAO, ClienteDAO clienteDAO) {
         super(service, "factura");
 
-    }
 
-    @PostMapping("/saveFactura")
-    public ResponseEntity<?> saveFactura(@Valid @RequestBody FacturaDTO factura, BindingResult result) {
+        this.clienteDAO = clienteDAO;
+    }
+    @GetMapping("/")
+    public ResponseEntity<?> listarFactura(){
         Map<String, Object> response = new HashMap<>();
-        FacturaDTO dto = null;
-        Factura facturaLocal = super.altaEntidad(mapper.mapDTOFactura(factura));
+        List<Factura> facturas = super.obtenerTodos();
+
+        if(facturas.isEmpty()){
+            response.put("success", Boolean.FALSE);
+            response.put("validaciones", "No existe ninguna factura");
+            return ResponseEntity.badRequest().body(response);
+        }
+        List<FacturaDTO> dtos = facturas .stream()
+                .map(mapper::mapFactura)
+                .collect(Collectors.toList());
+        response.put("message",Boolean.TRUE);
+        response.put("data",dtos);
+
+        return ResponseEntity.ok().body(response);
+    }
+    @PostMapping("/saveFactura/clienteId/{clienteId}/")
+    public ResponseEntity<?> saveFactura(@Valid @RequestBody FacturaDTO factura, BindingResult result, @PathVariable Long clienteId) {
+        Map<String, Object> response = new HashMap<>();
+        Optional<Cliente> cliente= clienteDAO.findById(clienteId);
 
         if (result.hasErrors()) {
             response.put("success", Boolean.FALSE);
             response.put("validaciones", super.obtenerValidaciones(result));
             return ResponseEntity.badRequest().body(response);
-
-        } else if (facturaLocal != null) {
-            response.put("succes", Boolean.FALSE);
-            response.put("validaciones", String.format("La %s que se desea crear ya existe", nombre_entidad));
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
+
+        if(cliente.isEmpty()){
+            response.put("success", Boolean.FALSE);
+            response.put("validaciones", "El cliente que deseas agregar a la factura no existe");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+
+        factura.setClientes(cliente.get());
         Factura oFactura = super.altaEntidad(mapper.mapDTOFactura(factura));
-        dto = mapper.mapFactura(oFactura);
+        FacturaDTO dto = mapper.mapFactura(oFactura);
         response.put("success", Boolean.TRUE);
-        response.put("data", dto);
+        response.put("data",dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
     }
@@ -81,7 +106,7 @@ public class FacturaControllerDTO extends GenericoControllerDTO<Factura, Factura
         Factura save = super.altaEntidad(facturaUpdate);
         dto = mapper.mapFactura(save);
         response.put("succes", Boolean.TRUE);
-        response.put("data", dto);
+
         return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }

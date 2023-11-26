@@ -33,8 +33,11 @@ public class Factura {
         this.descripcion = descripcion;
         this.createAt = createAt;
     }
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id")
+    @ManyToOne(fetch = FetchType.EAGER,
+    cascade = {CascadeType.PERSIST,
+    CascadeType.MERGE})
+    @JoinColumn(name = "cliente_id",foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
+    @JsonIgnoreProperties({"hibernateLazyInitializer","facturas"})
     private Cliente cliente;
 
     @OneToMany(fetch = FetchType.LAZY,

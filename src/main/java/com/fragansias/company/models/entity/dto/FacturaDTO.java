@@ -21,8 +21,7 @@ public class FacturaDTO {
     @NotNull
     @Size(min = 0,max = 100)
     private String descripcion;
-    @Size
-    @NotNull
+
     private Date creada_en;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer","factura"})
