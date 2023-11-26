@@ -26,4 +26,6 @@ public class FacturaDTO {
 
     @JsonIgnoreProperties({"hibernateLazyInitializer","factura"})
     private Cliente clientes;
+
+
 }
