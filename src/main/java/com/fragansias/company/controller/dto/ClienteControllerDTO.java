@@ -1,6 +1,7 @@
 package com.fragansias.company.controller.dto;
 
 import com.fragansias.company.models.entity.Cliente;
+import com.fragansias.company.models.entity.DetalleCliente;
 import com.fragansias.company.models.entity.dto.ClienteDTO;
 import com.fragansias.company.models.entity.mapper.mapstruct.ClienteMapper;
 import com.fragansias.company.service.contrato.ClienteDAO;
@@ -52,6 +53,7 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
     @GetMapping("/findAll/")
     public ResponseEntity<?> findAll(){
         List<Cliente> clientes = super.obtenerTodos();
+        DetalleCliente detalleCliente ;
         Map<String,Object> response = new HashMap<>();
 
         if (clientes.isEmpty()){
@@ -65,6 +67,7 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
                 .collect(Collectors.toList());
         response.put("message",Boolean.TRUE);
         response.put("data",clienteDTOS);
+
         return ResponseEntity.ok().body(response);
 
     }
@@ -136,7 +139,7 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
            response.put("validaciones",String.format("La %s que se desea crear ya existe",nombre_entidad));
            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
        }
-       Cliente clientes = super.altaEntidad(cliente);
+        Cliente clientes = super.altaEntidad(cliente);
        dto = mapper.mapCliente(clientes);
        response.put("success",Boolean.TRUE);
        response.put("data",dto);
@@ -146,9 +149,9 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
     public ResponseEntity<?> updateCliente(@Valid @RequestBody ClienteDTO clienteDTO,
                                            BindingResult result,@PathVariable Long id){
         Map<String,Object> response = new HashMap<>();
-        Cliente cliente=null;
         Optional<Cliente> oCliente = super.obtenerPorId(id);
-        Cliente clienteUpdate;
+        Cliente clienteUpdate = null;
+        DetalleCliente detalleClienteUpdte;
 
         if(result.hasErrors()){
             response.put("success",Boolean.FALSE);
@@ -157,21 +160,44 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
         }
         if(!oCliente.isPresent()
         ){
-            response.put("mensaje",String.format("La %s que se desea editar ya existe",nombre_entidad,id));
+            response.put("mensaje",String.format("La %s que se desea editar no existe",nombre_entidad,id));
             return ResponseEntity.badRequest().body(response);
         }
-        clienteUpdate = oCliente.get();
-        clienteUpdate.setNombre(clienteUpdate.getNombre());
-        clienteUpdate.setApellido(clienteUpdate.getApellido());
-        clienteUpdate.setTelefono(clienteUpdate.getTelefono());
-        clienteUpdate.setEmail(clienteUpdate.getEmail());
-        clienteUpdate.setEmail(cliente.getEmail());
+        try {
+            clienteUpdate = oCliente.get();
+            clienteUpdate.setNit(clienteDTO.getNum_nit());
+            clienteUpdate.setNombre(clienteDTO.getNombre());
+            clienteUpdate.setApellido(clienteDTO.getApellido());
+            clienteUpdate.setTelefono(clienteDTO.getTelefono());
+            clienteUpdate.setEmail(clienteDTO.getEmail());
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         response.put("datos",service.save(clienteUpdate));
         response.put("success",Boolean.TRUE);
         return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id){
+        Map<String,Object> response = new HashMap<>();
+        Optional<Cliente> cliente = super.obtenerPorId(id);
+        if (cliente.isEmpty()){
+            response.put("message",Boolean.FALSE);
+            response.put("success",String.format("no se encontro %s con id %d",nombre_entidad,id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        Cliente clienteEliminaado = cliente.get();
+        super.eliminarPorId(clienteEliminaado.getId());
+        ClienteDTO dto = mapper.mapCliente(clienteEliminaado);
+        response.put("success",Boolean.TRUE);
+        response.put("message",String.format("%s eliminado con exito",nombre_entidad));
+        response.put("data",dto);
+        return ResponseEntity.ok(response);
+    }
+
 
 
 }

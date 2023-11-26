@@ -20,7 +20,6 @@ import java.util.Set;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long id;
     @Column(name = "num_nit",nullable = false)
     private String nit;
@@ -31,6 +30,7 @@ public class Cliente {
     @Column(name = "telefono")
     private String telefono;
     @Column(name = "correo_email",nullable = false)
+
     private String email;
 
     @Embedded

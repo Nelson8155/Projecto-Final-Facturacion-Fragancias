@@ -1,7 +1,9 @@
 package com.fragansias.company.models.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fragansias.company.models.entity.DetalleCliente;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +32,6 @@ public class ClienteDTO {
     private String telefono;
     @Email
     private String email;
-
-
+    @JsonIgnoreProperties({"hibernateLazyInitializer","clientes"})
     private DetalleCliente detalleCliente;
 }
