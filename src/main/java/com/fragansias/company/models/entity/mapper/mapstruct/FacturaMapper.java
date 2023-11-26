@@ -9,9 +9,13 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface FacturaMapper {
 
-    /*@Mappings({
+    @Mappings({
             @Mapping(source = "id",target = "id_factura"),
-            @Mapping(source = "createAt",target = "fecha_creacion")
     })
-    FacturaDTO mapFactura(Factura factura);*/
+    FacturaDTO mapFactura(Factura factura);
+    @Mappings({
+            @Mapping(source = "id_factura",target = "id")
+    })
+    Factura mapDTOFactura(FacturaDTO factura);
+
 }
