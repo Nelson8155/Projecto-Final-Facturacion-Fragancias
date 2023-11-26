@@ -124,7 +124,7 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
         response.put("Data",clienteDTOS);
         return ResponseEntity.ok().body(response);
     }
-    @PostMapping("/saveProducto")
+    @PostMapping("/saveCliente")
     public ResponseEntity<?> saveCliente (@Valid @RequestBody Cliente cliente, BindingResult result){
         Map<String,Object> response = new HashMap<>();
         ClienteDTO dto = null;

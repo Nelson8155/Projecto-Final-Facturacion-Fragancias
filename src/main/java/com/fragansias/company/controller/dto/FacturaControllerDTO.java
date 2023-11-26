@@ -77,10 +77,7 @@ public class FacturaControllerDTO extends GenericoControllerDTO<Factura, Factura
 
         }
         facturaUpdate = oFactura.get();
-        facturaUpdate.setItemFacturas(factura.getItemFacturas());
         facturaUpdate.setDescripcion(factura.getDescripcion());
-        facturaUpdate.setCliente(factura.getCliente());
-        factura.setCreateAt(factura.getCreateAt());
         Factura save = super.altaEntidad(facturaUpdate);
         dto = mapper.mapFactura(save);
         response.put("succes", Boolean.TRUE);

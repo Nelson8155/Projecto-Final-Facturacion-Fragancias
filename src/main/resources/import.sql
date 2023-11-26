@@ -68,8 +68,8 @@ insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,cat
 insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,categoria_id) values (36,"P.C.MargaritaJaco(2015)","PC036",15.00,"100 ML",15);
 
 
-insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion_s, municipio, sexo) values(1, "12345678903", "Juan", "Pérez", "555-123-4567", "juan.perez@example.com", "calle aaaantiguo zacate", "san salvador", "santo tomas", "sexo");
---insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(2, "98765432210", "María", "González", "555-987-6543", "maria.gonzalez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(1, "12345678903", "Juan", "Pérez", "555-123-4567", "juan.perez@example.com", "calle aaaantiguo zacate", "san salvador", "santo tomas", "M");
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(2, "98765432210", "María", "González", "555-987-6543", "maria.gonzalez@example.com", "calle aaaantiguo zacate", "san salvador", "santo tomas", "F");
 --insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(3, "5678901234", "Pedro", "Ramírez", "555-567-8901", "pedro.ramirez@example.com", null, null, null, null);
 --insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(4, "4321098765", "Luisa", "López", "555-432-1098", "luisa.lopez@example.com", null, null, null, null);
 --insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(5, "3210987654", "Miguel", "Torres", "555-321-0987", "miguel.torres@example.com", null, null, null, null);

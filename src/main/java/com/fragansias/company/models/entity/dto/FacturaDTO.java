@@ -25,6 +25,6 @@ public class FacturaDTO {
     @NotNull
     private Date creada_en;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer","bill"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","factura"})
     private Cliente clientes;
 }

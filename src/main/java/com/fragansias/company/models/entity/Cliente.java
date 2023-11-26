@@ -34,9 +34,9 @@ public class Cliente {
     private String email;
 
     @Embedded
-    @AttributeOverrides(
-            @AttributeOverride(name = "direccion", column =@Column(name = "direccion_s"))
-    )
+    /*@AttributeOverrides(
+            @AttributeOverride(name = "direccion", column =@Column(name = "direccion"))
+    )*/
     private DetalleCliente detalleCliente;
 
     @Embedded

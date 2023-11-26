@@ -6,12 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.Hibernate;
-
 import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "productos")
@@ -39,7 +36,7 @@ public class Producto implements Serializable{
     private Auditoria audit = new Auditoria();
 
     @OneToMany(
-            fetch = FetchType.LAZY,
+            fetch = LAZY,
             cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.REMOVE}
@@ -49,7 +46,7 @@ public class Producto implements Serializable{
     private Set<ItemFactura> itemFacturas;
 
     @ManyToOne(
-            fetch = FetchType.LAZY,
+            fetch = LAZY,
             cascade = {CascadeType.PERSIST, //si utilizamos cascade all, eliminamos la categoria relacionada a producto
                     CascadeType.MERGE}
     )
