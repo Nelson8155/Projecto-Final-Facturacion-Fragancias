@@ -113,6 +113,7 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
         dto = mapper.mapCategoria(oCategoria);
         response.put("success", Boolean.TRUE);
         response.put("data", dto);
+        response.put("message",String.format("La categoria ha sido creada con exito"));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -143,6 +144,7 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
         dto = mapper.mapCategoria(save);
         response.put("succes", Boolean.TRUE);
         response.put("data", dto);
+        response.put("message",String.format("La categoria ha sido editada con exito"));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

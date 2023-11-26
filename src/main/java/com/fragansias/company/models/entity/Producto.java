@@ -30,6 +30,12 @@ public class Producto implements Serializable{
     private String presentacion;
 
     @Embedded
+    @AttributeOverrides(
+            {
+                    @AttributeOverride(name = "fechaCreacion", column = @Column(name = "fecha_creacion")),
+                    @AttributeOverride(name = "tipoFrasco", column = @Column(name = "tipo_de_frasco"))
+            }
+    )
     private DetalleProducto detalleProducto;
 
     @Embedded

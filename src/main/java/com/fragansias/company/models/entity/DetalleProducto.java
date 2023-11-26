@@ -15,10 +15,10 @@ import java.util.Date;
 public class DetalleProducto implements Serializable {
 
     private String descripcion;
-    @Column(name = "fecha_creacion")
+
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion ;
-    @Column(name = "tipo_de_frasco")
+
     private String tipoFrasco;
 
     public DetalleProducto() {

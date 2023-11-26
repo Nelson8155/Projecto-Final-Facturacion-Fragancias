@@ -21,16 +21,26 @@ public class ClienteDTO {
     @NotNull
     @NotBlank*/
     private Long id_cliente;
-   @NotEmpty
-   @Size(min = 0,max = 17)
+
+    @NotEmpty(message = "Este campo no puede estar vacio!")
+    @NotNull
+   @Size(min = 17,max = 17)
     private String num_nit;
-    @NotEmpty
+
+    @NotEmpty(message = "Este campo no puede estar vacio!")
+    @NotNull
     private String nombre;
-    @NotEmpty
+
+    @NotEmpty(message = "Este campo no puede estar vacio!")
+    @NotNull
     private String apellido;
-    @NotEmpty
+
+    @NotEmpty(message = "Este campo no puede estar vacio!")
+    @NotNull
     private String telefono;
-    @Email
+
+    @Email(message = "Este campo no puede estar vacio!")
+    @NotNull
     private String email;
     @JsonIgnoreProperties({"hibernateLazyInitializer","clientes"})
     private DetalleCliente detalleCliente;

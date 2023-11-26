@@ -2,6 +2,7 @@ package com.fragansias.company.models.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fragansias.company.models.entity.Categoria;
+import com.fragansias.company.models.entity.DetalleProducto;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,10 +35,12 @@ public class ProductoDTO {
     @Size(min = 0, max = 100)
     private Double precio;
 
+    private DetalleProducto detalleProducto;
+
     @NotEmpty
     @NotNull
     @Size(min = 0, max = 100)
     private String presentacion;
-    @JsonIgnoreProperties({"hibernateLazyInitializer","productos"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","productos", "genero", "descripcion"})
     private Categoria categoria;
 }

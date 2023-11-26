@@ -73,7 +73,7 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
     }
 
     @GetMapping("/findByName/{name}/lastName/{apellido}")
-    public ResponseEntity<?> searchByNameAndLastName(@PathVariable String name,@PathVariable String apellido){
+    public ResponseEntity<?> searchByNameAndLastName(@PathVariable String name, @PathVariable String apellido){
         Map<String,Object> response = new HashMap<>();
         Optional<Cliente> clientes = service.buscarPorNombreYApellido(name, apellido);
 
@@ -170,6 +170,10 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
             clienteUpdate.setApellido(clienteDTO.getApellido());
             clienteUpdate.setTelefono(clienteDTO.getTelefono());
             clienteUpdate.setEmail(clienteDTO.getEmail());
+            clienteUpdate.getDetalleCliente().setDepartamento(clienteDTO.getDetalleCliente().getDepartamento());
+            clienteUpdate.getDetalleCliente().setDireccion(clienteDTO.getDetalleCliente().getDireccion());
+            clienteUpdate.getDetalleCliente().setSexo(clienteDTO.getDetalleCliente().getSexo());
+            clienteUpdate.getDetalleCliente().setMunicipio(clienteDTO.getDetalleCliente().getMunicipio());
 
         }catch (Exception e){
             e.printStackTrace();
@@ -197,7 +201,4 @@ public class ClienteControllerDTO extends GenericoControllerDTO<Cliente, Cliente
         response.put("data",dto);
         return ResponseEntity.ok(response);
     }
-
-
-
 }

@@ -7,17 +7,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.Date;
+
 @Entity
 @Table(name = "items_facturas")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemFactura {
+public class ItemFactura implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_Item_Factura")
     private Long id;
-    @Column(name = "cantidad",nullable = false)
+
+    @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_creacion")
+    private Date fechaCreacion;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST,
