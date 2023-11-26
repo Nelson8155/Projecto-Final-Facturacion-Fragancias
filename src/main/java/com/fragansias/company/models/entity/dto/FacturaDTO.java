@@ -1,5 +1,7 @@
 package com.fragansias.company.models.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fragansias.company.models.entity.Cliente;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,4 +24,7 @@ public class FacturaDTO {
     @Size
     @NotNull
     private Date creada_en;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer","bill"})
+    private Cliente clientes;
 }
