@@ -129,7 +129,7 @@ public class ProductoControllerDTO extends GenericoControllerDTO<Producto, Produ
 
         if (productos.isEmpty()) {
             response.put("success", Boolean.FALSE);
-            response.put("message", String.format("No existen %s en la categoría %s", nombre_entidad, nombre));
+            response.put("message", String.format("No existen %s con el nombre %s", nombre_entidad, nombre));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         List<ProductoDTO> productoDTOS = productos

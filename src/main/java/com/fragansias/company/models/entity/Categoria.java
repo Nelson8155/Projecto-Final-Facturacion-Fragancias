@@ -37,7 +37,7 @@ public class Categoria implements Serializable{
                     CascadeType.MERGE,
                     CascadeType.REMOVE}
     )
-    @JsonIgnoreProperties({"hibernateLazyInitializer","id","itemFactura"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","id","productos"})
     @JoinColumn(name = "categoria_id")
     private Set<Producto> productos = new HashSet<>();
 

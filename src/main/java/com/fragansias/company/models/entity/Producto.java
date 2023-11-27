@@ -39,7 +39,7 @@ public class Producto implements Serializable{
     )
     private DetalleProducto detalleProducto;
 
-    @OneToMany(
+    /*@OneToMany(
             fetch = LAZY,
             cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
@@ -47,14 +47,14 @@ public class Producto implements Serializable{
     )
     @JsonIgnoreProperties({"hibernateLazyInitializer","id","fechaCreacion","factura","itemFactura"})
     @JoinColumn(name = "producto_id")
-    private Set<ItemFactura> itemFactura ;
+    private Set<ItemFactura> itemFactura ;*/
 
     @ManyToOne(
             fetch = LAZY,
             cascade = {CascadeType.PERSIST, //si utilizamos cascade all, eliminamos la categoria relacionada a producto
                     CascadeType.MERGE}
     )
-    @JsonIgnoreProperties({"hibernateLazyInitializer","id","productos","itemFacturas"})//utilizamos estaanotacion para mostrar la relacion q existe entre entidades
+    @JsonIgnoreProperties({"hibernateLazyInitializer","id","productos"})//utilizamos estaanotacion para mostrar la relacion q existe entre entidades
     @JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name = "FK_CATEGORIA_ID"))
     private Categoria categoria;
     public Producto(String nombreProducto, String codigoProducto, Double precio, String presentacion) {

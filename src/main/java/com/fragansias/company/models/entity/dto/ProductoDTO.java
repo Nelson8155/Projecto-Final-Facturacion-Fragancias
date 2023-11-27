@@ -41,6 +41,6 @@ public class ProductoDTO {
     @JsonIgnoreProperties({"hibernateLazyInitializer","fechaCreacion"})
     private DetalleProducto detalleProducto;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer","id_categoria","genero","descripcion"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","id_categoria","genero","descripcion","productos"})
     private Categoria categoria;
 }
