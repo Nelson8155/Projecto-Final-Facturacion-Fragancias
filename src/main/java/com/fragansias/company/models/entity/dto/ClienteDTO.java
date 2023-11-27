@@ -42,6 +42,6 @@ public class ClienteDTO {
     @Email(message = "Este campo no puede estar vacio!")
     @NotNull
     private String email;
-    @JsonIgnoreProperties({"hibernateLazyInitializer","clientes"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","clientes","sexo"})
     private DetalleCliente detalleCliente;
 }

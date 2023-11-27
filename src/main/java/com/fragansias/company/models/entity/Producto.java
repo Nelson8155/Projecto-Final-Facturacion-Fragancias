@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -38,25 +39,22 @@ public class Producto implements Serializable{
     )
     private DetalleProducto detalleProducto;
 
-    @Embedded
-    private Auditoria audit = new Auditoria();
-
     @OneToMany(
             fetch = LAZY,
             cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.REMOVE}
     )
-    @JsonIgnoreProperties({"hibernateLazyInitializer","productos"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","id","fechaCreacion","factura","itemFactura"})
     @JoinColumn(name = "producto_id")
-    private Set<ItemFactura> itemFacturas;
+    private Set<ItemFactura> itemFactura ;
 
     @ManyToOne(
             fetch = LAZY,
             cascade = {CascadeType.PERSIST, //si utilizamos cascade all, eliminamos la categoria relacionada a producto
                     CascadeType.MERGE}
     )
-    @JsonIgnoreProperties({"hibernateLazyInitializer","productos"})//utilizamos estaanotacion para mostrar la relacion q existe entre entidades
+    @JsonIgnoreProperties({"hibernateLazyInitializer","id","productos","itemFacturas"})//utilizamos estaanotacion para mostrar la relacion q existe entre entidades
     @JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name = "FK_CATEGORIA_ID"))
     private Categoria categoria;
     public Producto(String nombreProducto, String codigoProducto, Double precio, String presentacion) {

@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Table(name = "categorias")
 @ToString
@@ -30,11 +32,12 @@ public class Categoria implements Serializable{
     private String descripcion;
 
     @OneToMany(
-            //mappedBy = "categoria",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST
+            fetch = LAZY,
+            cascade = {CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE}
     )
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "categorias"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","id","itemFactura"})
     @JoinColumn(name = "categoria_id")
     private Set<Producto> productos = new HashSet<>();
 

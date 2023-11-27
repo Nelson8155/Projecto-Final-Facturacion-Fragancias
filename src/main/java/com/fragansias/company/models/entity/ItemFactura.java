@@ -10,37 +10,43 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.Date;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Table(name = "items_facturas")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ItemFactura implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_Item_Factura")
     private Long id;
 
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_creacion")
     private Date fechaCreacion;
 
-    @ManyToOne(fetch = FetchType.LAZY,
+    @ManyToOne(fetch = LAZY,
             cascade = {CascadeType.PERSIST,
-                    CascadeType.MERGE,
-                    CascadeType.REMOVE})
-    @JoinColumn(name = "factura_id", foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
-    @JsonIgnoreProperties({"hibernateLazyInitializer","items_facturas"})//HIBERNATE PARA HACER UN FECH INTERNO
+                    CascadeType.MERGE})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","itemFactura"})
+    @JoinColumn(name = "factura_id")
+    //HIBERNATE PARA HACER UN FECH INTERNO
     private Factura factura;
-    @ManyToOne(fetch = FetchType.LAZY,
+
+    @ManyToOne(fetch = LAZY,
             cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.REMOVE}
     )
-    @JoinColumn(name = "producto_id", foreignKey = @ForeignKey(name = "FK_PRODUCTO_ID"))
-    @JsonIgnoreProperties({"hibernateLazyInitializer","items_facturas"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","id","itemFactura"})
+    @JoinColumn(name = "producto_id")
     private Producto producto;
+
+    public ItemFactura(Long id, Integer cantidad, Date fechaCreacion) {
+        this.id = id;
+        this.cantidad = cantidad;
+        this.fechaCreacion = fechaCreacion;
+    }
 }

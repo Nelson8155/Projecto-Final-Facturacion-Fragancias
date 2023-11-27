@@ -2,6 +2,7 @@ package com.fragansias.company.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class Cliente {
     @Column(name = "nombres")
     @NotEmpty(message = "Este campo no puede estar vacio!")
     @NotNull
+
     private String nombre;
 
     @Column(name = "apellidos")
@@ -49,9 +51,10 @@ public class Cliente {
     @Column(name = "correo_email")
     @NotEmpty(message = "Este campo no puede estar vacio!")
     @NotNull
+    @Email
     private String email;
 
-    @OneToMany(
+    /*@OneToMany(
             fetch = LAZY,
             cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE,
@@ -59,7 +62,7 @@ public class Cliente {
     )
     @JsonIgnoreProperties({"hibernateLazyInitializer","clientes"})
     @JoinColumn(name = "cliente_id")
-    private List<Factura> factura;
+    private List<Factura> factura;*/
 
     @Embedded
     @AttributeOverrides({
@@ -68,6 +71,7 @@ public class Cliente {
             @AttributeOverride(name = "municipio", column = @Column(name = "municipio")),
             @AttributeOverride(name = "sexo", column = @Column(name = "sexo"))
     })
+    @JsonIgnoreProperties({"hibernateLazyInitializer","sexo"})
     private DetalleCliente detalleCliente;
 
     @Embedded

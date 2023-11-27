@@ -2,7 +2,9 @@ package com.fragansias.company.controller.dto;
 
 import com.fragansias.company.models.entity.Cliente;
 import com.fragansias.company.models.entity.Factura;
+import com.fragansias.company.models.entity.ItemFactura;
 import com.fragansias.company.models.entity.Producto;
+import com.fragansias.company.models.entity.dto.ClienteDTO;
 import com.fragansias.company.models.entity.dto.FacturaDTO;
 import com.fragansias.company.models.entity.mapper.mapstruct.FacturaMapper;
 import com.fragansias.company.service.contrato.ClienteDAO;
@@ -83,7 +85,7 @@ public class FacturaControllerDTO extends GenericoControllerDTO<Factura, Factura
     }
 
     @PutMapping("/editFactura/{id}")
-    public ResponseEntity<?> editarFactura(@Valid @RequestBody Factura factura,
+    public ResponseEntity<?> editarFactura(@Valid @RequestBody FacturaDTO factura,
                                              BindingResult result, @PathVariable Long id){
         Map<String, Object> response = new HashMap<>();
         FacturaDTO dto = null;
@@ -95,12 +97,14 @@ public class FacturaControllerDTO extends GenericoControllerDTO<Factura, Factura
             response.put("validaciones", super.obtenerValidaciones(result));
             return ResponseEntity.badRequest().body(response);
 
-    }if (oFactura.isEmpty()){
+        }
+        if (oFactura.isEmpty()){
             response.put("succes", Boolean.FALSE);
-            response.put("mensaje", String.format("La %s que se desea editar con ID  %d ya existe", nombre_entidad, id));
+            response.put("mensaje", String.format("La %s que se desea editar con ID  %d no existe", nombre_entidad, id));
             return ResponseEntity.badRequest().body(response);
 
         }
+
         facturaUpdate = oFactura.get();
         facturaUpdate.setDescripcion(factura.getDescripcion());
         Factura save = super.altaEntidad(facturaUpdate);

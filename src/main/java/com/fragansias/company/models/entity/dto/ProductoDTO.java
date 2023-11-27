@@ -34,13 +34,13 @@ public class ProductoDTO {
     @NotNull
     @Size(min = 0, max = 100)
     private Double precio;
-
-    private DetalleProducto detalleProducto;
-
     @NotEmpty
     @NotNull
     @Size(min = 0, max = 100)
     private String presentacion;
-    @JsonIgnoreProperties({"hibernateLazyInitializer","productos", "genero", "descripcion"})
-    private Categoria categoria;
+    @JsonIgnoreProperties({"hibernateLazyInitializer","fechaCreacion"})
+    private DetalleProductoDTO detalleProductoDTO;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer","id_categoria","genero","descripcion"})
+    private CategoriaDTO categoriaDTO;
 }

@@ -9,7 +9,10 @@ import lombok.ToString;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "facturas")
@@ -33,17 +36,21 @@ public class Factura {
         this.descripcion = descripcion;
         this.createAt = createAt;
     }
-    @ManyToOne(fetch = FetchType.EAGER,
-    cascade = {CascadeType.PERSIST,
-    CascadeType.MERGE})
+    @ManyToOne(fetch = LAZY,
+    cascade = {
+            CascadeType.PERSIST,
+    CascadeType.MERGE,
+    CascadeType.REMOVE})
     @JoinColumn(name = "cliente_id",foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
-    @JsonIgnoreProperties({"hibernateLazyInitializer","facturas"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","id","itemFacturas"})
     private Cliente cliente;
 
-    @OneToMany(fetch = FetchType.LAZY,
+
+    @OneToMany(fetch = LAZY,
             cascade = {CascadeType.PERSIST,
-                    CascadeType.MERGE})
-    @JsonIgnoreProperties({"hibernateLazyInitializer","facturas"})
+                    CascadeType.MERGE,
+            CascadeType.REMOVE})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","id","fechaCreacion","factura"})
     @JoinColumn(name = "factura_id")
     private Set<ItemFactura> itemFacturas = new HashSet<>();
 
