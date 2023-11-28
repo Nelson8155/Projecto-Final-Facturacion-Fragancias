@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,6 +25,7 @@ public class ProductoControllerDTO extends GenericoControllerDTO<Producto, Produ
     private ProductoMapper mapper;
 
     private final CategoriaDAO categoriaDAO;
+
 
     public ProductoControllerDTO(ProductoDAO service, CategoriaDAO categoriaDAO) {
         super(service, "producto");
@@ -110,14 +110,14 @@ public class ProductoControllerDTO extends GenericoControllerDTO<Producto, Produ
     @GetMapping("/findByName/{nombre}")
     public ResponseEntity<?> findByName(@PathVariable String nombre){
         Map<String,Object> response = new HashMap<>();
-        Producto producto = service.findByName(nombre);
+        Optional<Producto> producto = service.findByName(nombre);
 
         if (producto==null){
             response.put("success",Boolean.FALSE);
             response.put("message", String.format("No existe %s con nombre %s", nombre_entidad, nombre));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-        ProductoDTO dto = mapper.mapProducto(producto);
+        ProductoDTO dto = mapper.mapProducto(producto.get());
         response.put("success",Boolean.TRUE);
         response.put("data", dto);
         return ResponseEntity.ok(response);
@@ -141,55 +141,72 @@ public class ProductoControllerDTO extends GenericoControllerDTO<Producto, Produ
         return ResponseEntity.ok(response);
     }
     @PostMapping("/")
-    public ResponseEntity<?> saveProducto(@Valid @RequestBody Producto producto, BindingResult result){
+    public ResponseEntity<?> saveProducto(@Valid @RequestBody ProductoDTO producto, BindingResult result){
         Map<String, Object> response = new HashMap<>();
-        ProductoDTO dto = null;
-        Producto productoLocal = service.findByName(producto.getNombreProducto());
-        Categoria categoriaLocal = categoriaDAO.findByName(producto.getCategoria().getNombreCategoria());
+        Optional<Producto> productoLocal = service.findByName(producto.getNombreProducto());
+        Optional<Categoria> categoriaLocal = categoriaDAO.findByName(producto.getCategoria().getNombreCategoria());
 
         if (result.hasErrors()){
             response.put("success", Boolean.FALSE);
             response.put("validaciones", super.obtenerValidaciones(result));
             return ResponseEntity.badRequest().body(response);
-        } else if (productoLocal != null){
+        } else if (productoLocal.isPresent()){
             response.put("succes", Boolean.FALSE);
-            response.put("validaciones", String.format("La %s que se desea crear ya existe", nombre_entidad));
+            response.put("validaciones", String.format("La %s que se desea crear ya existe", producto.getNombreProducto()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        if (categoriaLocal == null){
+        if (categoriaLocal.isEmpty()){
             response.put("succes", Boolean.FALSE);
-            response.put("validaciones", String.format("No puedes gardar este %s por que la categoria no existe!", nombre_entidad));
+            response.put("validaciones", String.format("No puedes gardar este %s por que la categoria no existe!", producto.getCategoria().getNombreCategoria()));
             return ResponseEntity.badRequest().body(response);
         }
-        producto.setCategoria(categoriaLocal);
-        Producto oProducto = super.altaEntidad(producto);
-        dto = mapper.mapProducto(oProducto);
+        producto.setCategoria(categoriaLocal.get());
+        Producto productoSave = super.altaEntidad(mapper.mapDTOProducto(producto));
+        ProductoDTO dto = mapper.mapProducto(productoSave);
         response.put("success", Boolean.TRUE);
         response.put("data", dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@Valid @RequestBody Producto producto,
                                            BindingResult result, @PathVariable Long id){
         Map<String, Object> response = new HashMap<>();
-        ProductoDTO dto = null;
-        Optional<Producto> oProducto = super.obtenerPorId(id);
-        Producto productoUpdate;
+        Optional<Producto> productoLocal = super.obtenerPorId(id);
+        Optional<Categoria> categoriaLocal = categoriaDAO.findByName(producto.getCategoria().getNombreCategoria());
+        Producto productoUpdate = null;
         if (result.hasErrors()){
             response.put("succes", Boolean.FALSE);
             response.put("validaciones", super.obtenerValidaciones(result));
             return ResponseEntity.badRequest().body(response);
-        }
-        if (oProducto.isEmpty()){
-            response.put("mensaje", String.format("La %s que se desea editar ya existe", nombre_entidad, id));
+        } else if (categoriaLocal.isEmpty()) {
+            response.put("mensaje", String.format("La categoria que desea guardar con el %s no existe!", nombre_entidad));
             return ResponseEntity.badRequest().body(response);
         }
-        productoUpdate = oProducto.get();
-        productoUpdate.setNombreProducto(producto.getNombreProducto());
-        productoUpdate.setCodigoProducto(producto.getCodigoProducto());
-        productoUpdate.setCategoria(producto.getCategoria());
-        return null;
+        if (productoLocal.isEmpty()){
+            response.put("mensaje", String.format("El ID de %s que desea guardar con el %d no existe!", nombre_entidad, id));
+            return ResponseEntity.badRequest().body(response);
+        }
+        if (productoLocal.get().getNombreProducto().equals(producto.getNombreProducto())) {
+            productoUpdate = productoLocal.get();
+            productoUpdate.setNombreProducto(producto.getNombreProducto());
+            productoUpdate.setCodigoProducto(producto.getCodigoProducto());
+            productoUpdate.setPrecio(producto.getPrecio());
+            productoUpdate.setPresentacion(producto.getPresentacion());
+            productoUpdate.getDetalleProducto().setDescripcion(producto.getDetalleProducto().getDescripcion());
+            productoUpdate.getDetalleProducto().setTipoFrasco(producto.getDetalleProducto().getTipoFrasco());
+
+        } else {Optional<Producto> buscarProducto = service.findByName(producto.getNombreProducto());
+            if (buscarProducto.isPresent()) {
+                response.put("mensaje", String.format("El %s que se desea editar ya existe %d", nombre_entidad, id));
+                return ResponseEntity.badRequest().body(response);
+            }}
+
+        Producto productoSave = super.altaEntidad(productoUpdate);
+        ProductoDTO dto = mapper.mapProducto(productoSave);
+        response.put("success", Boolean.TRUE);
+        response.put("data", dto);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

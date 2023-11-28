@@ -2,6 +2,7 @@ package com.fragansias.company.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,9 +26,9 @@ public class Producto implements Serializable{
     private String nombreProducto;
     @Column(name = "codigo_producto", nullable = false)
     private String codigoProducto;
-    @Column(nullable = false)
+
+    @NotNull
     private Double precio;
-    @Column(nullable = false)
     private String presentacion;
 
     @Embedded
