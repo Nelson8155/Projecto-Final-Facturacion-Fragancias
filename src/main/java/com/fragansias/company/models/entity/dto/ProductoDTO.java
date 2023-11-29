@@ -23,19 +23,15 @@ public class ProductoDTO {
 
     private Integer id_producto;
     @NotEmpty
-    @NotNull
-    @Size(min = 0 ,max = 15)
+    @NotNull(message = "Este campo no puede ir vacio")
     private String nombreProducto;
     @NotEmpty
-    @NotNull
-    @Size(min = 0, max = 10)
+    @NotNull(message = "Este campo no puede ir vacio")
     private String codigoProducto;
-    @NotEmpty
-    @NotNull
-    @Size(min = 0, max = 100)
+    @NotNull(message = "Este campo no puede ir vacio")
     private Double precio;
     @NotEmpty
-    @NotNull
+    @NotNull(message = "Este campo no puede ir vacio")
     @Size(min = 0, max = 100)
     private String presentacion;
     @JsonIgnoreProperties({"hibernateLazyInitializer","fechaCreacion"})

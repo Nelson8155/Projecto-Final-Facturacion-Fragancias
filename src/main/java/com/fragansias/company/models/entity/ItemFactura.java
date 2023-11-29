@@ -14,7 +14,7 @@ import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
-@Table(name = "items_facturas")
+@Table(name = "item_Facturas")
 @Data
 @NoArgsConstructor
 public class ItemFactura implements Serializable {
@@ -30,9 +30,15 @@ public class ItemFactura implements Serializable {
 
     @ManyToOne(//fetch = EAGER,
             cascade = {CascadeType.PERSIST,
-                    CascadeType.MERGE})
-    @JsonIgnoreProperties({"hibernateLazyInitializer","itemFactura"})
-    @JoinColumn(name = "factura_id")
+                    CascadeType.MERGE,
+            CascadeType.REMOVE})
+    @JoinColumn(
+            name = "factura_id",
+            foreignKey = @ForeignKey(name = "FK_FACTURA_ID")
+    )
+    //@JsonIgnoreProperties({"hibernateLazyInitializer","itemFactura"})
+    //@JoinColumn(name = "factura_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer","item_Factura"})
     //HIBERNATE PARA HACER UN FECH INTERNO
     private Factura factura;
 
@@ -41,8 +47,13 @@ public class ItemFactura implements Serializable {
             CascadeType.MERGE,
             CascadeType.REMOVE}
     )
-    @JsonIgnoreProperties({"hibernateLazyInitializer","id","itemFactura"})
-    @JoinColumn(name = "producto_id")
+    @JoinColumn(
+            name = "producto_id",
+            foreignKey = @ForeignKey(name = "FK_PRODUCTO_ID")
+    )
+    //@JsonIgnoreProperties({"hibernateLazyInitializer","id","itemFactura"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "item_Factura"})
+    //@JoinColumn(name = "producto_id")
     private Producto producto;
 
     public ItemFactura(Long id, Integer cantidad, Date fechaCreacion) {

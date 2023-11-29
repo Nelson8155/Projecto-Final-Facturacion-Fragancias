@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 @Deprecated
 @RestController
 @RequestMapping("/api/categoria")
@@ -30,10 +28,10 @@ public class CategoriaController extends GenericController<Categoria, CategoriaD
     }
     @GetMapping("/buscarPorNombreDeCategoria/{param1}")
     public ResponseEntity<?> response (@PathVariable String param1){
-        List<Categoria> categorias = new ArrayList<>();
+        Optional<Categoria> categorias;
         Map<String,Object> response = new HashMap<>();
         try {
-            categorias = (List<Categoria>) service.findByName(param1);
+            categorias = service.findByName(param1);
             if(categorias.isEmpty()){
                 response.put("message","No se encontro Categoria");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);

@@ -19,7 +19,7 @@ public class ProductoImpl extends GenericoDAOImpl<Producto, ProductoRepository> 
 
     @Override
     @Transactional(readOnly = true)
-    public Producto findByName(String nombre) {
+    public Optional <Producto> findByName(String nombre) {
         return repository.findByName(nombre);
     }
 

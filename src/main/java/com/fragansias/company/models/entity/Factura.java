@@ -37,22 +37,35 @@ public class Factura {
         this.descripcion = descripcion;
         this.createAt = createAt;
     }
+<<<<<<< HEAD
     @ManyToOne(fetch = EAGER,
+=======
+    @ManyToOne(fetch = LAZY,
+    optional = true,
+>>>>>>> 56bf701e8b648206008f057fab5536d600a5e9bc
     cascade = {
-            CascadeType.PERSIST,
+            CascadeType.ALL,
     CascadeType.MERGE,
     CascadeType.REMOVE})
+<<<<<<< HEAD
     //@JoinColumn(name = "cliente_id",foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
     @JoinColumn(name ="cliende_id" )
     @JsonIgnoreProperties({"hibernateLazyInitializer","id","email"})
+=======
+   // @JoinColumn(name = "cliente_id",foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
+   // @JsonIgnoreProperties({"hibernateLazyInitializer","id","email"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "factura"})
+>>>>>>> 56bf701e8b648206008f057fab5536d600a5e9bc
     private Cliente cliente;
 
 
     @OneToMany( //fetch = EAGER,
             cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE,
-            CascadeType.REMOVE})
-    @JsonIgnoreProperties({"hibernateLazyInitializer","id","fechaCreacion","factura"})
+            })
+            //CascadeType.REMOVE})
+    //@JsonIgnoreProperties({"hibernateLazyInitializer","id","fechaCreacion","factura"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "itemFacturas"})
     @JoinColumn(name = "factura_id")
     private Set<ItemFactura> itemFacturas = new HashSet<>();
 
@@ -60,7 +73,4 @@ public class Factura {
     public void prePersist(){
         createAt = new Date();
     }
-
-
-
 }

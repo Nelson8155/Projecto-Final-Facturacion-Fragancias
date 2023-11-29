@@ -2,6 +2,7 @@ package com.fragansias.company.models.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fragansias.company.models.entity.DetalleCliente;
+import com.fragansias.company.models.entity.Factura;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.validation.constraints.*;
@@ -10,7 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,4 +47,7 @@ public class ClienteDTO {
     private String email;
     @JsonIgnoreProperties({"hibernateLazyInitializer","clientes","sexo"})
     private DetalleCliente detalleCliente;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "manejador"})
+    private Set<Factura> factura = new HashSet<>();
 }

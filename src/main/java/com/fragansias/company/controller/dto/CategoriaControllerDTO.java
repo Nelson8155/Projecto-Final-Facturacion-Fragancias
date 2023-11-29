@@ -64,14 +64,14 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
     @GetMapping("/findByName/{nombre}")
     public ResponseEntity<?> findByName(@PathVariable String nombre){
         Map<String,Object> response = new HashMap<>();
-        Categoria categoria = service.findByName(nombre);
+        Optional<Categoria> categoria = service.findByName(nombre);
 
         if (categoria==null){
             response.put("success",Boolean.FALSE);
             response.put("message", String.format("No existe %s con nombre %s", nombre_entidad, nombre));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-        CategoriaDTO dto = mapper.mapCategoria(categoria);
+        CategoriaDTO dto = mapper.mapCategoria(categoria.get());
         response.put("success",Boolean.TRUE);
         response.put("data", dto);
         return ResponseEntity.ok(response);
@@ -98,7 +98,7 @@ public class CategoriaControllerDTO extends GenericoControllerDTO<Categoria, Cat
     public ResponseEntity<?> saveCategoria(@Valid @RequestBody Categoria categoria, BindingResult result) {
         Map<String, Object> response = new HashMap<>();
         CategoriaDTO dto = null;
-        Categoria categoriaLocal = service.findByName(categoria.getNombreCategoria());
+        Optional<Categoria> categoriaLocal = service.findByName(categoria.getNombreCategoria());
 
         if (result.hasErrors()){
             response.put("success", Boolean.FALSE);
