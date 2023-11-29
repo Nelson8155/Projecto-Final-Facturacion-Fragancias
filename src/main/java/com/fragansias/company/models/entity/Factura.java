@@ -37,20 +37,24 @@ public class Factura {
         this.createAt = createAt;
     }
     @ManyToOne(fetch = LAZY,
+    optional = true,
     cascade = {
-            CascadeType.PERSIST,
+            CascadeType.ALL,
     CascadeType.MERGE,
     CascadeType.REMOVE})
-    @JoinColumn(name = "cliente_id",foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
-    @JsonIgnoreProperties({"hibernateLazyInitializer","id","email"})
+   // @JoinColumn(name = "cliente_id",foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
+   // @JsonIgnoreProperties({"hibernateLazyInitializer","id","email"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "factura"})
     private Cliente cliente;
 
 
     @OneToMany(fetch = LAZY,
             cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE,
-            CascadeType.REMOVE})
-    @JsonIgnoreProperties({"hibernateLazyInitializer","id","fechaCreacion","factura"})
+            })
+            //CascadeType.REMOVE})
+    //@JsonIgnoreProperties({"hibernateLazyInitializer","id","fechaCreacion","factura"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "itemFacturas"})
     @JoinColumn(name = "factura_id")
     private Set<ItemFactura> itemFacturas = new HashSet<>();
 
@@ -58,7 +62,4 @@ public class Factura {
     public void prePersist(){
         createAt = new Date();
     }
-
-
-
 }

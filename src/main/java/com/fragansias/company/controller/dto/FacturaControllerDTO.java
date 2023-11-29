@@ -33,10 +33,10 @@ public class FacturaControllerDTO extends GenericoControllerDTO<Factura, Factura
     private FacturaMapper mapper;
     private final ClienteDAO clienteDAO;
 
-    public FacturaControllerDTO(FacturaDAO service, ProductoDAO productoDAO, ClienteDAO clienteDAO) {
+    /*public FacturaControllerDTO(FacturaDAO service, ProductoDAO productoDAO, ClienteDAO clienteDAO) {
+        super(service, "factura");*/
+    public FacturaControllerDTO(FacturaDAO service, ClienteDAO clienteDAO) {
         super(service, "factura");
-
-
         this.clienteDAO = clienteDAO;
     }
     @GetMapping("/")
@@ -75,13 +75,43 @@ public class FacturaControllerDTO extends GenericoControllerDTO<Factura, Factura
         }
 
 
-        factura.setClientes(cliente.get());
+        factura.setCliente(cliente.get());
         Factura oFactura = super.altaEntidad(mapper.mapDTOFactura(factura));
         FacturaDTO dto = mapper.mapFactura(oFactura);
         response.put("success", Boolean.TRUE);
         response.put("data",dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
+    }
+
+    //ESTE ES EL METODO DE GUARDAR QUE AGREGE YO
+
+    @PostMapping("/")
+    public ResponseEntity <?> saveFactura(@Valid @RequestBody FacturaDTO factura, BindingResult result){
+        Map<String, Object> response = new HashMap<>();
+        Optional<Factura> facturaLocal = service.findById(factura.getId_factura());
+        Optional<Cliente> clienteLocal = clienteDAO.findById(factura.getCliente().getId());
+
+        if (result.hasErrors()){
+            response.put("success", Boolean.FALSE);
+            response.put("validaciones", super.obtenerValidaciones(result));
+            return ResponseEntity.badRequest().body(response);
+        } else if (facturaLocal.isPresent()) {
+            response.put("succes", Boolean.FALSE);
+            response.put("validaciones", String.format("La %s que se desea crear ya existe", factura.getId_factura()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        if (clienteLocal.isEmpty()){
+            response.put("succes", Boolean.FALSE);
+            response.put("validaciones", String.format("No puedes guardar esta %s por que el ciente no existe!", factura.getCliente().getId()));
+            return ResponseEntity.badRequest().body(response);
+        }
+        factura.setCliente(clienteLocal.get());
+        Factura facturaSave = super.altaEntidad(mapper.mapDTOFactura(factura));
+        FacturaDTO dto = mapper.mapFactura(facturaSave);
+        response.put("success", Boolean.TRUE);
+        response.put("data", dto);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/editFactura/{id}")
@@ -115,5 +145,35 @@ public class FacturaControllerDTO extends GenericoControllerDTO<Factura, Factura
 
     }
 
+    //ESTE ES EL METODO DE EDITAR QUE AGREGE YO
 
+    @PutMapping("/{id}")
+    public ResponseEntity updateProducto(@Valid @RequestBody Factura factura,
+                                         BindingResult result, @PathVariable Long id){
+        Map<String, Object> response = new HashMap<>();
+        Optional<Factura> facturaLocal = super.obtenerPorId(id);
+        Optional<Cliente> clienteLocal = clienteDAO.findById(factura.getCliente().getId());
+        Factura facturaUpdate = null;
+        if (result.hasErrors()){
+            response.put("succes", Boolean.FALSE);
+            response.put("validaciones", super.obtenerValidaciones(result));
+            return ResponseEntity.badRequest().body(response);
+        } else if (clienteLocal.isEmpty()){
+            response.put("mensaje", String.format("El ID de %s que desea guardar con el %d no existe!", nombre_entidad, id));
+            return ResponseEntity.badRequest().body(response);
+        }
+        if (facturaLocal.get().getId().equals(factura.getId())){
+            facturaUpdate = facturaLocal.get();
+            facturaUpdate.setDescripcion(factura.getDescripcion());
+        } else { Optional<Factura> buscarFactura = service.findById(factura.getId());
+            if (buscarFactura.isPresent()) {
+                response.put("mensaje", String.format("El %s que se desea editar ya existe %d", nombre_entidad, id));
+                return ResponseEntity.badRequest().body(response);
+            }}
+        Factura facturaSave = super.altaEntidad(facturaUpdate);
+        FacturaDTO dto = mapper.mapFactura(facturaSave);
+        response.put("success", Boolean.TRUE);
+        response.put("data", dto);
+        return ResponseEntity.ok(response);
+    }
 }

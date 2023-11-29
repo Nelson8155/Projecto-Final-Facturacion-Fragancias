@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -63,6 +65,14 @@ public class Cliente {
     @JsonIgnoreProperties({"hibernateLazyInitializer","clientes"})
     @JoinColumn(name = "cliente_id")
     private List<Factura> factura;*/
+
+    @OneToMany(
+            fetch = EAGER,
+            mappedBy = "cliente",
+            cascade = {CascadeType.ALL}
+    )
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "manejador"})
+    private Set<Factura> factura = new HashSet<>();
 
     @Embedded
     @AttributeOverrides({
