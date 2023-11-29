@@ -9,6 +9,8 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -50,7 +52,6 @@ public class Producto implements Serializable{
     private Set<ItemFactura> itemFactura ;*/
 
     @ManyToOne(
-            fetch = LAZY,
             cascade = {CascadeType.PERSIST, //si utilizamos cascade all, eliminamos la categoria relacionada a producto
                     CascadeType.MERGE}
     )

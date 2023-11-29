@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -36,17 +37,18 @@ public class Factura {
         this.descripcion = descripcion;
         this.createAt = createAt;
     }
-    @ManyToOne(fetch = LAZY,
+    @ManyToOne(fetch = EAGER,
     cascade = {
             CascadeType.PERSIST,
     CascadeType.MERGE,
     CascadeType.REMOVE})
-    @JoinColumn(name = "cliente_id",foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
+    //@JoinColumn(name = "cliente_id",foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
+    @JoinColumn(name ="cliende_id" )
     @JsonIgnoreProperties({"hibernateLazyInitializer","id","email"})
     private Cliente cliente;
 
 
-    @OneToMany(fetch = LAZY,
+    @OneToMany( //fetch = EAGER,
             cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE,
             CascadeType.REMOVE})

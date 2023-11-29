@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.Date;
 
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -27,7 +28,7 @@ public class ItemFactura implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
 
-    @ManyToOne(fetch = LAZY,
+    @ManyToOne(//fetch = EAGER,
             cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE})
     @JsonIgnoreProperties({"hibernateLazyInitializer","itemFactura"})
@@ -35,7 +36,7 @@ public class ItemFactura implements Serializable {
     //HIBERNATE PARA HACER UN FECH INTERNO
     private Factura factura;
 
-    @ManyToOne(fetch = LAZY,
+    @ManyToOne(//fetch = EAGER,
             cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.REMOVE}

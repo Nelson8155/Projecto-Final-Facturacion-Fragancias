@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
@@ -32,7 +33,7 @@ public class Categoria implements Serializable{
     private String descripcion;
 
     @OneToMany(
-            fetch = LAZY,
+            //fetch = EAGER,
             cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE,
                     CascadeType.REMOVE}
