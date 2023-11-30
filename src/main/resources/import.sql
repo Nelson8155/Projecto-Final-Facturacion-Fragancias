@@ -70,7 +70,7 @@ insert into productos(id,nombre_producto,codigo_producto,precio,presentacion,cat
 
 insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(1, "12345678903", "Juan", "Pérez", "555-123-4567", "juan.perez@example.com", "calle aaaantiguo zacate", "san salvador", "santo tomas", "M");
 insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(2, "98765432210", "María", "González", "555-987-6543", "maria.gonzalez@example.com", "calle aaaantiguo zacate", "san salvador", "santo tomas", "F");
---insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(3, "5678901234", "Pedro", "Ramírez", "555-567-8901", "pedro.ramirez@example.com", null, null, null, null);
+insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(3, "5678901234", "Pedro", "Ramírez", "555-567-8901", "pedro.ramirez@example.com", "colonia villa nueva", "San vicente", "san benito", "M");
 --insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(4, "4321098765", "Luisa", "López", "555-432-1098", "luisa.lopez@example.com", null, null, null, null);
 --insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(5, "3210987654", "Miguel", "Torres", "555-321-0987", "miguel.torres@example.com", null, null, null, null);
 --insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(6, "2345678901", "Sofía", "Martínez", "555-234-5678", "sofia.martinez@example.com", null, null, null, null);
@@ -84,5 +84,8 @@ insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, de
 --insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(14, "1234567890", "Carmen", "Díaz", "555-123-4567", "carmen.diaz@example.com", null, null, null, null);
 --insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(15, "9876543210", "Diego", "Santos", "555-987-6543", "diego.santos@example.com", null, null, null, null);
 
+<<<<<<< HEAD
 insert into facturas(id,descripcion,cliente_id,factura_id) values (1,"venta de productos basicos",1,1)
 
+=======
+>>>>>>> 805bc701f27eead65a41641481711ecbf2b7c567
