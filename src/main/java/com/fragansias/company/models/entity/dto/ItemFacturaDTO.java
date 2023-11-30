@@ -14,6 +14,7 @@ import java.util.Date;
 
 @NoArgsConstructor
 @Data
+@AllArgsConstructor
 @ToString
 public class ItemFacturaDTO {
 
@@ -22,7 +23,7 @@ public class ItemFacturaDTO {
     @Min(value = 1,message = "Al menos debe ser mayor a 1")
     private Integer cantidad;
 
-    private Date fecha_creacion;
+    private Double precioTotal;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "item_Facturas"})
     private Producto producto;
@@ -30,15 +31,4 @@ public class ItemFacturaDTO {
     @JsonIgnoreProperties({"hibernateLazyInitializer","item_Facturas"})
     private Factura factura;
 
-    @NotNull
-    private Double precioTotal;
-
-    public ItemFacturaDTO(Long id_Item_Factura, Integer cantidad, Date fecha_creacion, Producto producto, Factura factura, Double precioTotal) {
-        this.id_Item_Factura = id_Item_Factura;
-        this.cantidad = cantidad;
-        this.fecha_creacion = fecha_creacion;
-        this.producto = producto;
-        this.factura = factura;
-        this.precioTotal = precioTotal;
-    }
 }
