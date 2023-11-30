@@ -59,7 +59,7 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
 
         if(items.isEmpty()){
             response.put("message",Boolean.FALSE);
-            response.put("message",String.format("El item con id #%d no se encontro",nombre_entidad,id));
+            response.put("message",String.format("El %s con id %d no se encontro",nombre_entidad,id));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         ItemFactura itemEliminado = items.get();
@@ -157,8 +157,5 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
         response.put("data", dto);
         return ResponseEntity.ok(response);
     }
-
-
-
 
 }
