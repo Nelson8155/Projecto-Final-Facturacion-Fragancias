@@ -41,7 +41,7 @@ public class Factura {
             CascadeType.ALL,
     CascadeType.MERGE,
     CascadeType.REMOVE})
-    @JoinColumn(name ="cliende_id", foreignKey = @ForeignKey(name = "FK_CLIENTE_ID") )
+    @JoinColumn(name ="cliente_id", foreignKey = @ForeignKey(name = "FK_CLIENTE_ID") )
     @JsonIgnoreProperties({"hibernateLazyInitializer", "facturas"})
     private Cliente cliente;
 
