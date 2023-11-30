@@ -17,8 +17,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/itemFactura")
@@ -36,6 +38,23 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
         this.facturaDAO = facturaDAO;
         this.productoDAO = productoDAO;
     }
+
+
+    @GetMapping("/")
+    public ResponseEntity <?> getAllItems(){
+        Map<String, Object> response = new HashMap<>();
+        List<ItemFactura> itemFacturas = super.obtenerTodos();
+        if (itemFacturas.isEmpty()){
+            response.put("success", Boolean.FALSE);
+            response.put("message", String.format("No se encontraron %ss cargados", nombre_entidad));
+            return ResponseEntity.badRequest().body(response);
+        }
+        List<ItemFacturaDTO> dtos = itemFacturas.stream().map(mapper::mapItemFactura).collect(Collectors.toList());
+        response.put("success", Boolean.TRUE);
+        response.put("data", dtos);
+        return ResponseEntity.ok(response);
+    }
+
 
     @PostMapping("/facturaid/{idFactura}/crearItemFactura/")
     public ResponseEntity<?> guardarFactra(@Valid @RequestBody ItemFacturaDTO facturaDTO, BindingResult result, @PathVariable Long idFactura){
@@ -65,7 +84,6 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
         response.put("data", dto);
         return ResponseEntity.ok(response);
     }
-
 
 
 
