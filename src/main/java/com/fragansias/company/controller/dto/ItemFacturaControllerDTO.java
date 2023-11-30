@@ -44,8 +44,8 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
     private final ProductoDAO productoDAO;
 
 
-    public ItemFacturaControllerDTO(ItemFacturaDAO service, String nombre_entidad, FacturaDAO facturaDAO, FacturaDAO facturaDAO1, ProductoDAO productoDAO) {
-        super(service, nombre_entidad);
+    public ItemFacturaControllerDTO(ItemFacturaDAO service, FacturaDAO facturaDAO, FacturaDAO facturaDAO1, ProductoDAO productoDAO) {
+        super(service, "ItemFactura");
         this.facturaDAO = facturaDAO1;
 
         this.productoDAO = productoDAO;
