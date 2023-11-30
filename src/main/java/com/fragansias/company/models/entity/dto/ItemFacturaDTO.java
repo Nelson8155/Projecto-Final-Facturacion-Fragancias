@@ -13,7 +13,6 @@ import lombok.ToString;
 import java.util.Date;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 @ToString
 public class ItemFacturaDTO {
@@ -33,4 +32,13 @@ public class ItemFacturaDTO {
 
     @NotNull
     private Double precioTotal;
+
+    public ItemFacturaDTO(Long id_Item_Factura, Integer cantidad, Date fecha_creacion, Producto producto, Factura factura, Double precioTotal) {
+        this.id_Item_Factura = id_Item_Factura;
+        this.cantidad = cantidad;
+        this.fecha_creacion = fecha_creacion;
+        this.producto = producto;
+        this.factura = factura;
+        this.precioTotal = precioTotal;
+    }
 }

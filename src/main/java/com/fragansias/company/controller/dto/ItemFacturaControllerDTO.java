@@ -54,7 +54,19 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
     public ResponseEntity<?> eliminarProductos (@PathVariable Long id){
         Map<String,Object> response = new HashMap<>();
         Optional<ItemFactura> items = super.obtenerPorId(id);
-        return null;
+
+        if(items.isEmpty()){
+            response.put("message",Boolean.FALSE);
+            response.put("message",String.format("El item con id #%d no se encontro",nombre_entidad,id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        ItemFactura itemEliminado = items.get();
+        super.eliminarPorId(itemEliminado.getId());
+        ItemFacturaDTO dto = mapper.mapItemFactura(itemEliminado);
+        response.put("success",Boolean.TRUE);
+        response.put("message",String.format("%s eliminados con exito",nombre_entidad));
+        response.put("data",dto);
+        return ResponseEntity.ok(response);
 
     }
 
@@ -86,6 +98,7 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
         response.put("data", dto);
         return ResponseEntity.ok(response);
     }
+
 
 
 
