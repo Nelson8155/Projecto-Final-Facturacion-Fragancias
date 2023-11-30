@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/itemFactura")
 @ConditionalOnProperty(prefix = "app", name = "controller.enable-dto", havingValue = "true")
-public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura, ItemFa>{
+public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,>{
 
     @Autowired
     private ItemFactura mapper;
 
-    private final FacturaDAO facturaDAO;
 
-
+    public ItemFacturaControllerDTO(ItemFa service, String nombre_entidad) {
+        super(service, nombre_entidad);
+    }
 }
