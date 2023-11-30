@@ -59,7 +59,7 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
     public ResponseEntity<?> guardarFactra(@Valid @RequestBody ItemFacturaDTO facturaDTO, BindingResult result, @PathVariable Long idFactura,){
         Map<String,Object> response=new HashMap<>();
         Optional<Factura> oFactura = facturaDAO.findById(idFactura);
-        Optional<Producto> oProducto = productoDAO.findByName(facturaDTO.getProducto().getNombreProducto());
+        Optional<Producto> oProducto = productoDAO.findById(facturaDTO.getProducto().getId());
         if(oFactura.isEmpty()){
             response.put("success", Boolean.FALSE);
             response.put("validaciones", String.format("La factura con el id #%d no existe"));
