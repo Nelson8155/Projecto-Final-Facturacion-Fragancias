@@ -27,8 +27,10 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/itemFactura")
@@ -50,6 +52,7 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
         this.productoDAO = productoDAO;
     }
 
+
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminarProductos (@PathVariable Long id){
         Map<String,Object> response = new HashMap<>();
@@ -69,6 +72,25 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
         return ResponseEntity.ok(response);
 
     }
+
+
+
+    @GetMapping("/")
+    public ResponseEntity <?> getAllItems(){
+        Map<String, Object> response = new HashMap<>();
+        List<ItemFactura> itemFacturas = super.obtenerTodos();
+        if (itemFacturas.isEmpty()){
+            response.put("success", Boolean.FALSE);
+            response.put("message", String.format("No se encontraron %ss cargados", nombre_entidad));
+            return ResponseEntity.badRequest().body(response);
+        }
+        List<ItemFacturaDTO> dtos = itemFacturas.stream().map(mapper::mapItemFactura).collect(Collectors.toList());
+        response.put("success", Boolean.TRUE);
+        response.put("data", dtos);
+        return ResponseEntity.ok(response);
+    }
+
+
 
     @PostMapping("/facturaid/{idFactura}/crearItemFactura/")
     public ResponseEntity<?> guardarFactra(@Valid @RequestBody ItemFacturaDTO facturaDTO, BindingResult result, @PathVariable Long idFactura){
@@ -92,8 +114,46 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
         }
         facturaDTO.setFactura(oFactura.get());
         facturaDTO.setProducto(oProducto.get());
+        facturaDTO.setPrecioTotal(oProducto.get().getPrecio() * facturaDTO.getCantidad());
         ItemFactura save = super.altaEntidad(mapper.mapItemFactura(facturaDTO));
         ItemFacturaDTO dto = mapper.mapItemFactura(save);
+        response.put("success", Boolean.TRUE);
+        response.put("data", dto);
+        return ResponseEntity.ok(response);
+    }
+    @PutMapping("/facturaid/{idFactura}/editItemFacturaId/{idItemFActura}")
+    public ResponseEntity<?> editarFactra(@Valid @RequestBody ItemFacturaDTO facturaDTO, BindingResult result, @PathVariable Long idFactura, @PathVariable long idItemFactura){
+        Map<String,Object> response=new HashMap<>();
+        Optional<Factura> oFactura = facturaDAO.findById(idFactura);
+        Optional<Producto> oProducto = productoDAO.findById(facturaDTO.getProducto().getId());
+        Optional<ItemFactura> oItemFActura = super.obtenerPorId(idItemFactura);
+        if(oItemFActura.isEmpty()){
+            response.put("success", Boolean.FALSE);
+            response.put("validaciones", String.format("El item factura con el id #%d no existe", idItemFactura));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        if(oFactura.isEmpty()){
+            response.put("success", Boolean.FALSE);
+            response.put("validaciones", String.format("La factura con el id #%d no existe", idFactura));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        if(result.hasErrors()){
+            response.put("success", Boolean.FALSE);
+            response.put("validaciones", super.obtenerValidaciones(result));
+            return ResponseEntity.badRequest().body(response);
+        }
+        if(oProducto.isEmpty()){
+            response.put("success", Boolean.FALSE);
+            response.put("validacion", "El producto que deseas agrega no existe");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        ItemFactura facturaUpdate = oItemFActura.get();
+        facturaUpdate.setFactura(oFactura.get());
+        facturaUpdate.setProducto(oProducto.get());
+        facturaUpdate.setCantidad(facturaDTO.getCantidad());
+        facturaUpdate.setPrecioTotal(oProducto.get().getPrecio() * facturaDTO.getCantidad());
+        super.altaEntidad(facturaUpdate);
+        ItemFacturaDTO dto = mapper.mapItemFactura(facturaUpdate);
         response.put("success", Boolean.TRUE);
         response.put("data", dto);
         return ResponseEntity.ok(response);
