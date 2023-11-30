@@ -56,15 +56,7 @@ public class Cliente {
     @Email
     private String email;
 
-    /*@OneToMany(
-            fetch = LAZY,
-            cascade = {CascadeType.PERSIST,
-                    CascadeType.MERGE,
-                    CascadeType.REMOVE}
-    )
-    @JsonIgnoreProperties({"hibernateLazyInitializer","clientes"})
-    @JoinColumn(name = "cliente_id")
-    private List<Factura> factura;*/
+
 
     @OneToMany(
             fetch = EAGER,
@@ -85,13 +77,11 @@ public class Cliente {
     private DetalleCliente detalleCliente;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "creadoEn", column = @Column(name = "creado_en")),
+            @AttributeOverride(name = "editadoEn", column = @Column(name = "editado_en"))
+    })
     private Auditoria audit = new Auditoria();
 
-    public Cliente(String nit, String nombre, String apellido, String telefono, String email) {
-        this.nit = nit;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.telefono = telefono;
-        this.email = email;
-    }
+
 }

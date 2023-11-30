@@ -8,23 +8,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+
 @Setter
 @Getter
 @Embeddable
 public class Auditoria {
+
     @Column(name = "creado_en")
-    private LocalDateTime creadoEn;
+    private Date creadoEn;
     @Column(name = "editado_en")
-    private LocalDateTime editadoEn;
+    private Date editadoEn;
     @PrePersist
     public void prePersist(){
-        System.out.println("Inicializar algo justo antes del persist");
-        this.editadoEn = LocalDateTime.now();
+       creadoEn = new Date();
     }
     @PreUpdate
     public void preUpdate(){
-        System.out.println("Inicializar algo justo antes del update");
-        this.editadoEn = LocalDateTime.now();
+        creadoEn = new Date();
     }
 
 

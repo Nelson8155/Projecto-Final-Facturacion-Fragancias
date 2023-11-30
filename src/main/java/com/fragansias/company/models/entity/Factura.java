@@ -30,32 +30,19 @@ public class Factura {
     private String descripcion;
 
     @Temporal(TemporalType.DATE)
-            @Column(name = "fecha_creacion",nullable = false)
+            @Column(name = "fecha_creacion")
     private Date createAt;
 
-    public Factura(String descripcion, Date createAt) {
-        this.descripcion = descripcion;
-        this.createAt = createAt;
-    }
-<<<<<<< HEAD
-    @ManyToOne(fetch = EAGER,
-=======
-    @ManyToOne(fetch = LAZY,
-    optional = true,
->>>>>>> 56bf701e8b648206008f057fab5536d600a5e9bc
+
+
+    @ManyToOne(
+            fetch = LAZY,
     cascade = {
             CascadeType.ALL,
     CascadeType.MERGE,
     CascadeType.REMOVE})
-<<<<<<< HEAD
-    //@JoinColumn(name = "cliente_id",foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
-    @JoinColumn(name ="cliende_id" )
-    @JsonIgnoreProperties({"hibernateLazyInitializer","id","email"})
-=======
-   // @JoinColumn(name = "cliente_id",foreignKey = @ForeignKey(name = "FK_FACTURA_ID"))
-   // @JsonIgnoreProperties({"hibernateLazyInitializer","id","email"})
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "factura"})
->>>>>>> 56bf701e8b648206008f057fab5536d600a5e9bc
+    @JoinColumn(name ="cliende_id", foreignKey = @ForeignKey(name = "FK_CLIENTE_ID") )
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "facturas"})
     private Cliente cliente;
 
 
@@ -65,7 +52,7 @@ public class Factura {
             })
             //CascadeType.REMOVE})
     //@JsonIgnoreProperties({"hibernateLazyInitializer","id","fechaCreacion","factura"})
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "itemFacturas"})
+    @JsonIgnoreProperties({"facturas"})
     @JoinColumn(name = "factura_id")
     private Set<ItemFactura> itemFacturas = new HashSet<>();
 

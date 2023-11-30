@@ -25,16 +25,12 @@ public class ItemFacturaDTO {
 
     private Date fecha_creacion;
 
-    /*@JsonIgnoreProperties({"hibernateLazyInitializer","id_producto"})
-    private ProductoDTO productoDTO;*/
     @JsonIgnoreProperties({"hibernateLazyInitializer", "item_Facturas"})
     private Producto producto;
 
-    /*@JsonIgnoreProperties({"hibernateLazyInitializer", "id_factura"})
-    private FacturaDTO facturaDTO;*/
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "item_Facturas"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer","item_Facturas"})
     private Factura factura;
 
-    //@Positive(message = "Este campo tiene que ser positivo")
+    @NotNull
     private Double precioTotal;
 }

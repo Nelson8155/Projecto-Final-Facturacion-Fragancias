@@ -3,6 +3,7 @@ package com.fragansias.company.models.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,11 @@ public class ItemFactura implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
 
-    @ManyToOne(//fetch = EAGER,
+    @NotNull
+    private Double precioTotal;
+
+    @ManyToOne(
+            fetch = LAZY,
             cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE,
             CascadeType.REMOVE})
@@ -36,13 +41,11 @@ public class ItemFactura implements Serializable {
             name = "factura_id",
             foreignKey = @ForeignKey(name = "FK_FACTURA_ID")
     )
-    //@JsonIgnoreProperties({"hibernateLazyInitializer","itemFactura"})
-    //@JoinColumn(name = "factura_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer","item_Factura"})
-    //HIBERNATE PARA HACER UN FECH INTERNO
+    @JsonIgnoreProperties({"hibernateLazyInitializer","item_Facturas"})
     private Factura factura;
 
-    @ManyToOne(//fetch = EAGER,
+    @ManyToOne(
+            fetch = LAZY,
             cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.REMOVE}
@@ -51,14 +54,8 @@ public class ItemFactura implements Serializable {
             name = "producto_id",
             foreignKey = @ForeignKey(name = "FK_PRODUCTO_ID")
     )
-    //@JsonIgnoreProperties({"hibernateLazyInitializer","id","itemFactura"})
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "item_Factura"})
-    //@JoinColumn(name = "producto_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "item_Facturas"})
     private Producto producto;
 
-    public ItemFactura(Long id, Integer cantidad, Date fechaCreacion) {
-        this.id = id;
-        this.cantidad = cantidad;
-        this.fechaCreacion = fechaCreacion;
-    }
+
 }

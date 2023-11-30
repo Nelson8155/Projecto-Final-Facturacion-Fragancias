@@ -1,6 +1,7 @@
 package com.fragansias.company.models.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fragansias.company.models.entity.Auditoria;
 import com.fragansias.company.models.entity.DetalleCliente;
 import com.fragansias.company.models.entity.Factura;
 import jakarta.persistence.Column;
@@ -41,6 +42,8 @@ public class ClienteDTO {
     @NotEmpty(message = "Este campo no puede estar vacio!")
     @NotNull
     private String telefono;
+
+    private Auditoria audit = new Auditoria();
 
     @Email(message = "Este campo no puede estar vacio!")
     @NotNull
