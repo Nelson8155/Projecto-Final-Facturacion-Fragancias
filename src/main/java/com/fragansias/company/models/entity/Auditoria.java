@@ -15,9 +15,9 @@ import java.util.Date;
 @Embeddable
 public class Auditoria {
 
-    @Column(name = "creado_en")
+
     private Date creadoEn;
-    @Column(name = "editado_en")
+
     private Date editadoEn;
     @PrePersist
     public void prePersist(){

@@ -10,13 +10,13 @@ public interface ItemFacturaMapper {
 
         @Mappings({
                 @Mapping(source = "id", target = "id_Item_Factura"),
-                @Mapping(source = "fechaCreacion", target = "fecha_creacion")
+
         })
         ItemFacturaDTO mapItemFactura(ItemFactura itemFactura);
 
         @Mappings({
                 @Mapping(source = "id_Item_Factura", target = "id"),
-                @Mapping(source = "fecha_creacion", target = "fechaCreacion")
+
         })
         ItemFactura mapItemFactura(ItemFacturaDTO itemFacturaDTO);
 }

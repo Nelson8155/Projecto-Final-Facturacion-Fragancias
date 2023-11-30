@@ -120,20 +120,20 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
         response.put("data", dto);
         return ResponseEntity.ok(response);
     }
-    @PutMapping("/facturaid/{idFactura}/editItemFacturaId/{idItemFActura}")
-    public ResponseEntity<?> editarFactra(@Valid @RequestBody ItemFacturaDTO facturaDTO, BindingResult result, @PathVariable Long idFactura, @PathVariable long idItemFactura){
+    @PutMapping("/facturaid/{idFactura}/editItemFacturaId/{idItem}")
+    public ResponseEntity<?> editarFactra(@Valid @RequestBody ItemFacturaDTO facturaDTO, BindingResult result, @PathVariable Long idFactura, @PathVariable Long idItem){
         Map<String,Object> response=new HashMap<>();
         Optional<Factura> oFactura = facturaDAO.findById(idFactura);
         Optional<Producto> oProducto = productoDAO.findById(facturaDTO.getProducto().getId());
-        Optional<ItemFactura> oItemFActura = super.obtenerPorId(idItemFactura);
+        Optional<ItemFactura> oItemFActura = super.obtenerPorId(idItem);
         if(oItemFActura.isEmpty()){
             response.put("success", Boolean.FALSE);
-            response.put("validaciones", String.format("El item factura con el id #%d no existe", idItemFactura));
+            response.put("validaciones", String.format("El item factura con el id  no existe"));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         if(oFactura.isEmpty()){
             response.put("success", Boolean.FALSE);
-            response.put("validaciones", String.format("La factura con el id #%d no existe", idFactura));
+            response.put("validaciones", String.format("La factura con el id no existe"));
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         if(result.hasErrors()){
