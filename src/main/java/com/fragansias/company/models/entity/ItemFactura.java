@@ -27,6 +27,7 @@ public class ItemFactura implements Serializable {
     private Integer cantidad;
 
     @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_creacion")
     private Date fechaCreacion;
 
     @NotNull

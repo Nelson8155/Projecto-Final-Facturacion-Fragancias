@@ -85,4 +85,4 @@ insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, de
 --insert into clientes(id, num_nit, nombres, apellidos, telefono, correo_email, departamento, direccion, municipio, sexo) values(15, "9876543210", "Diego", "Santos", "555-987-6543", "diego.santos@example.com", null, null, null, null);
 
 
-
+insert into facturas(id,descripcion,cliente_id,factura_id) values (1,"venta de productos basicos",1,1)
