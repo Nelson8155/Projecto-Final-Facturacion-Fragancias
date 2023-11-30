@@ -1,21 +1,25 @@
 package com.fragansias.company.controller.dto;
 
+import com.fragansias.company.models.entity.Factura;
 import com.fragansias.company.models.entity.ItemFactura;
+import com.fragansias.company.models.entity.Producto;
 import com.fragansias.company.models.entity.dto.ItemFacturaDTO;
 import com.fragansias.company.models.entity.mapper.mapstruct.ItemFacturaMapper;
 import com.fragansias.company.service.contrato.FacturaDAO;
 import com.fragansias.company.service.contrato.ItemFacturaDAO;
+import com.fragansias.company.service.contrato.ProductoDAO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/itemFactura")
@@ -26,12 +30,14 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
     private ItemFacturaMapper mapper;
 
     private final FacturaDAO facturaDAO;
+    private final ProductoDAO productoDAO;
 
-    public ItemFacturaControllerDTO(ItemFacturaDAO service, FacturaDAO facturaDAO) {
+    public ItemFacturaControllerDTO(ItemFacturaDAO service, FacturaDAO facturaDAO, ProductoDAO productoDAO) {
         super(service, "Factura item");
-
         this.facturaDAO = facturaDAO;
+        this.productoDAO = productoDAO;
     }
+
 
     @GetMapping("/")
     public ResponseEntity <?> getAllItems(){
@@ -47,5 +53,37 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
         response.put("data", dtos);
         return ResponseEntity.ok(response);
     }
+
+
+    @PostMapping("/facturaid/{idFactura}/crearItemFactura/")
+    public ResponseEntity<?> guardarFactra(@Valid @RequestBody ItemFacturaDTO facturaDTO, BindingResult result, @PathVariable Long idFactura,){
+        Map<String,Object> response=new HashMap<>();
+        Optional<Factura> oFactura = facturaDAO.findById(idFactura);
+        Optional<Producto> oProducto = productoDAO.findByName(facturaDTO.getProducto().getNombreProducto());
+        if(oFactura.isEmpty()){
+            response.put("success", Boolean.FALSE);
+            response.put("validaciones", String.format("La factura con el id #%d no existe"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        if(result.hasErrors()){
+            response.put("success", Boolean.FALSE);
+            response.put("validaciones", super.obtenerValidaciones(result));
+            return ResponseEntity.badRequest().body(response);
+        }
+        if(oProducto.isEmpty()){
+            response.put("success", Boolean.FALSE);
+            response.put("validacion", "El producto que deseas agrega no existe");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        facturaDTO.setFactura(oFactura.get());
+        facturaDTO.setProducto(oProducto.get());
+        ItemFactura save = super.altaEntidad(mapper.mapItemFactura(facturaDTO));
+        ItemFacturaDTO dto = mapper.mapItemFactura(save);
+        response.put("success", Boolean.TRUE);
+        response.put("data", dto);
+        return ResponseEntity.ok(response);
+    }
+
+
 
 }
