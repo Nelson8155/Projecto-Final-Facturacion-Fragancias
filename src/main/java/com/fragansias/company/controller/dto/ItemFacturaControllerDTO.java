@@ -57,7 +57,7 @@ public class ItemFacturaControllerDTO extends GenericoControllerDTO<ItemFactura,
 
 
     @PostMapping("/facturaid/{idFactura}/crearItemFactura/")
-    public ResponseEntity<?> guardarFactra(@Valid @RequestBody ItemFacturaDTO facturaDTO, BindingResult result, @PathVariable Long idFactura,){
+    public ResponseEntity<?> guardarFactra(@Valid @RequestBody ItemFacturaDTO facturaDTO, BindingResult result, @PathVariable Long idFactura){
         Map<String,Object> response=new HashMap<>();
         Optional<Factura> oFactura = facturaDAO.findById(idFactura);
         Optional<Producto> oProducto = productoDAO.findById(facturaDTO.getProducto().getId());
