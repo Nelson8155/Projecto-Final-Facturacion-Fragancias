@@ -1,4 +1,6 @@
 package com.fragansias.company.service.contrato;
 
-public interface ItemFacturaDAO {
+import com.fragansias.company.models.entity.ItemFactura;
+
+public interface ItemFacturaDAO extends GenericoDAO<ItemFactura>{
 }
